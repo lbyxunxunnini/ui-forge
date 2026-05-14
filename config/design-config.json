@@ -1,0 +1,190 @@
+{
+  "project": {
+    "name": "MyApp",
+    "type": "mobile",
+    "platform": ["ios", "android"],
+    "style": "modern"
+  },
+  "tokens": {
+    "colors": {
+      "primary": "#667eea",
+      "secondary": "#764ba2",
+      "neutral": {
+        "50": "#f8fafc",
+        "100": "#f1f5f9",
+        "200": "#e2e8f0",
+        "300": "#cbd5e1",
+        "400": "#94a3b8",
+        "500": "#64748b",
+        "600": "#475569",
+        "700": "#334155",
+        "800": "#1e293b",
+        "900": "#0f172a"
+      },
+      "success": "#22c55e",
+      "warning": "#f59e0b",
+      "error": "#ef4444"
+    },
+    "typography": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif",
+      "sizes": {
+        "h1": "24px",
+        "h2": "20px",
+        "body": "16px",
+        "caption": "14px"
+      },
+      "weights": {
+        "regular": "400",
+        "medium": "500",
+        "semibold": "600",
+        "bold": "700"
+      }
+    },
+    "spacing": {
+      "xs": "4px",
+      "sm": "8px",
+      "md": "16px",
+      "lg": "24px",
+      "xl": "32px",
+      "xxl": "48px"
+    },
+    "borderRadius": {
+      "sm": "8px",
+      "md": "14px",
+      "lg": "20px",
+      "xl": "24px"
+    },
+    "shadows": {
+      "sm": "0 2px 8px rgba(0, 0, 0, 0.06)",
+      "md": "0 4px 16px rgba(0, 0, 0, 0.08)",
+      "lg": "0 8px 32px rgba(0, 0, 0, 0.1)"
+    }
+  },
+  "styles": {
+    "modern": {
+      "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      "container": {
+        "background": "rgba(255, 255, 255, 0.95)",
+        "backdropFilter": "blur(20px)",
+        "borderRadius": "24px"
+      }
+    },
+    "minimalist": {
+      "background": "white",
+      "container": {
+        "background": "white",
+        "border": "1px solid #e8e8ed",
+        "borderRadius": "24px"
+      }
+    },
+    "business": {
+      "background": "#f0f4f8",
+      "container": {
+        "background": "white",
+        "borderRadius": "12px"
+      }
+    },
+    "tech": {
+      "background": "#0a0a0f",
+      "container": {
+        "background": "#1a1a2e",
+        "border": "1px solid #2a2a3e",
+        "borderRadius": "24px"
+      }
+    },
+    "playful": {
+      "background": "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)",
+      "container": {
+        "background": "white",
+        "borderRadius": "32px"
+      }
+    }
+  },
+  "responsive": {
+    "breakpoints": {
+      "mobile": "max-width: 767px",
+      "tablet": "min-width: 768px and max-width: 1023px",
+      "desktop": "min-width: 1024px"
+    },
+    "containers": {
+      "mobile": {
+        "maxWidth": "100%",
+        "padding": "16px",
+        "borderRadius": "0"
+      },
+      "tablet": {
+        "maxWidth": "480px",
+        "padding": "24px",
+        "borderRadius": "16px"
+      },
+      "desktop": {
+        "maxWidth": "420px",
+        "padding": "32px",
+        "borderRadius": "24px"
+      }
+    }
+  },
+  "components": {
+    "input": {
+      "height": "52px",
+      "padding": "16px",
+      "border": "2px solid #e8e8ed",
+      "borderRadius": "14px",
+      "fontSize": "16px",
+      "focusBorderColor": "#667eea",
+      "focusShadow": "0 0 0 4px rgba(102, 126, 234, 0.1)"
+    },
+    "button": {
+      "primary": {
+        "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "color": "white",
+        "borderRadius": "14px",
+        "fontSize": "16px",
+        "fontWeight": "600"
+      },
+      "secondary": {
+        "background": "#f1f5f9",
+        "color": "#0f172a",
+        "borderRadius": "14px",
+        "fontSize": "16px",
+        "fontWeight": "600"
+      }
+    },
+    "card": {
+      "background": "white",
+      "borderRadius": "20px",
+      "padding": "20px",
+      "boxShadow": "0 4px 16px rgba(0, 0, 0, 0.08)"
+    }
+  },
+  "pages": {
+    "login": {
+      "name": "登录页",
+      "components": ["logo", "input", "button", "social-login", "register-link"]
+    },
+    "register": {
+      "name": "注册页",
+      "components": ["logo", "input", "button", "login-link"]
+    },
+    "home": {
+      "name": "首页",
+      "components": ["navbar", "card", "tabbar"]
+    },
+    "profile": {
+      "name": "个人中心",
+      "components": ["navbar", "user-info", "menu-list"]
+    },
+    "settings": {
+      "name": "设置页",
+      "components": ["navbar", "setting-list"]
+    },
+    "list": {
+      "name": "列表页",
+      "components": ["navbar", "list-item"]
+    },
+    "detail": {
+      "name": "详情页",
+      "components": ["navbar", "content", "action-bar"]
+    }
+  }
+}

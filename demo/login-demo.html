@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录页 Demo - UI Forge</title>
+    <style>
+        /* 设计Token */
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --neutral-50: #f8fafc;
+            --neutral-100: #f1f5f9;
+            --neutral-900: #0f172a;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+            --font-size-h1: 24px;
+            --font-size-h2: 20px;
+            --font-size-body: 16px;
+            --font-size-caption: 14px;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-xxl: 48px;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 24px;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: var(--spacing-md);
+            background: var(--neutral-100);
+        }
+
+        /* 风格切换按钮 */
+        .style-switcher {
+            position: fixed;
+            top: var(--spacing-md);
+            left: var(--spacing-md);
+            display: flex;
+            gap: var(--spacing-sm);
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+
+        .style-btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 2px solid #e8e8ed;
+            border-radius: var(--radius-sm);
+            background: white;
+            cursor: pointer;
+            font-size: var(--font-size-caption);
+            transition: all 0.2s ease;
+        }
+
+        .style-btn:hover {
+            border-color: var(--primary-color);
+        }
+
+        .style-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* 展示区域 */
+        .demo-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 60px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 380px;
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xxl) var(--spacing-lg);
+            box-shadow: var(--shadow-lg);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* 现代风格 */
+        body.style-modern {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+
+        body.style-modern .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+        }
+
+        /* 简约风格 */
+        body.style-minimalist {
+            background: white;
+        }
+
+        body.style-minimalist .login-container {
+            box-shadow: none;
+            border: 1px solid #e8e8ed;
+        }
+
+        /* 商务风格 */
+        body.style-business {
+            background: #f0f4f8;
+        }
+
+        body.style-business .login-container {
+            border-radius: var(--radius-sm);
+        }
+
+        body.style-business .login-btn {
+            background: #2563eb;
+            border-radius: var(--radius-sm);
+        }
+
+        /* 科技风格 */
+        body.style-tech {
+            background: #0a0a0f;
+        }
+
+        body.style-tech .login-container {
+            background: #1a1a2e;
+            border: 1px solid #2a2a3e;
+        }
+
+        body.style-tech .input-field {
+            background: #0d0d15;
+            border-color: #2a2a3e;
+            color: white;
+        }
+
+        body.style-tech .login-btn {
+            background: linear-gradient(135deg, #00d4ff 0%, #7b2cbf 100%);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        /* 活泼风格 */
+        body.style-playful {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+
+        body.style-playful .login-container {
+            border-radius: 32px;
+        }
+
+        body.style-playful .login-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+            border-radius: 20px;
+        }
+
+        /* Logo区域 */
+        .logo-section {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .logo {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto var(--spacing-md);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border-radius: var(--radius-lg);
+        }
+
+        .app-name {
+            font-size: var(--font-size-h1);
+            font-weight: bold;
+            color: var(--neutral-900);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .app-slogan {
+            font-size: var(--font-size-body);
+            color: #8e8ea0;
+        }
+
+        /* 表单 */
+        .login-form {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .input-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: var(--spacing-md);
+            border: 2px solid #e8e8ed;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-body);
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        /* 按钮 */
+        .login-btn {
+            width: 100%;
+            padding: var(--spacing-md);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-body);
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-btn:active {
+            animation: pulse 0.2s ease;
+        }
+
+        /* 分割线 */
+        .divider {
+            text-align: center;
+            margin: var(--spacing-lg) 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e8e8ed;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 var(--spacing-md);
+            color: #8e8ea0;
+            font-size: var(--font-size-caption);
+            position: relative;
+        }
+
+        body.style-modern .divider span {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        body.style-tech .divider span {
+            background: #1a1a2e;
+        }
+
+        /* 社交登录 */
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .social-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-md);
+            border: 1.5px solid #e8e8ed;
+            background: white;
+            cursor: pointer;
+            font-size: var(--font-size-caption);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-btn:hover {
+            border-color: var(--primary-color);
+        }
+
+        body.style-tech .social-btn {
+            background: #0d0d15;
+            border-color: #2a2a3e;
+            color: white;
+        }
+
+        /* 注册入口 */
+        .register-section {
+            text-align: center;
+            font-size: var(--font-size-body);
+            color: #8e8ea0;
+        }
+
+        .register-section a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* 响应式 */
+        @media (max-width: 767px) {
+            body {
+                padding: 0;
+            }
+
+            .style-switcher {
+                position: relative;
+                top: 0;
+                left: 0;
+                justify-content: center;
+                padding: var(--spacing-md);
+                background: white;
+                border-bottom: 1px solid #e8e8ed;
+            }
+
+            .demo-wrapper {
+                padding-top: 0;
+            }
+
+            .login-container {
+                max-width: 100%;
+                min-height: 100vh;
+                border-radius: 0;
+                padding: var(--spacing-lg) var(--spacing-md);
+            }
+        }
+    </style>
+</head>
+<body class="style-modern">
+    <div class="style-switcher">
+        <button class="style-btn active" onclick="switchStyle('modern')">现代风格</button>
+        <button class="style-btn" onclick="switchStyle('minimalist')">简约风格</button>
+        <button class="style-btn" onclick="switchStyle('business')">商务风格</button>
+        <button class="style-btn" onclick="switchStyle('tech')">科技风格</button>
+        <button class="style-btn" onclick="switchStyle('playful')">活泼风格</button>
+    </div>
+
+    <div class="demo-wrapper">
+        <div class="login-container">
+            <div class="logo-section">
+                <div class="logo"></div>
+                <h1 class="app-name">MyApp</h1>
+                <p class="app-slogan">让生活更简单</p>
+            </div>
+
+            <form class="login-form">
+                <div class="input-group">
+                    <input type="tel" placeholder="请输入手机号" class="input-field">
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="请输入密码" class="input-field">
+                </div>
+                <button type="submit" class="login-btn">登录</button>
+            </form>
+
+            <div class="divider"><span>其他登录方式</span></div>
+
+            <div class="social-login">
+                <button class="social-btn wechat">微信</button>
+                <button class="social-btn apple">Apple</button>
+            </div>
+
+            <div class="register-section">
+                <span>还没有账号？</span><a href="#">立即注册</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchStyle(style) {
+            document.body.className = 'style-' + style;
+            document.querySelectorAll('.style-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

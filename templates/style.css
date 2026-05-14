@@ -1,0 +1,353 @@
+/* 设计Token */
+:root {
+    /* 颜色 */
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --neutral-50: #f8fafc;
+    --neutral-100: #f1f5f9;
+    --neutral-900: #0f172a;
+    --success-color: #22c55e;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+
+    /* 字体 */
+    --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+    --font-size-h1: 24px;
+    --font-size-h2: 20px;
+    --font-size-body: 16px;
+    --font-size-caption: 14px;
+
+    /* 间距 */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-xxl: 48px;
+
+    /* 圆角 */
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 24px;
+
+    /* 阴影 */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* 基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-md);
+    background: var(--neutral-100);
+}
+
+/* 现代风格 */
+body.style-modern {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+}
+
+/* 简约风格 */
+body.style-minimalist {
+    background: white;
+}
+
+/* 商务风格 */
+body.style-business {
+    background: #f0f4f8;
+}
+
+/* 科技风格 */
+body.style-tech {
+    background: #0a0a0f;
+}
+
+/* 活泼风格 */
+body.style-playful {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+}
+
+/* 容器 */
+.login-container,
+.register-container,
+.home-container,
+.profile-container,
+.list-container,
+.detail-container {
+    width: 100%;
+    max-width: 380px;
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xxl) var(--spacing-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+/* 现代风格容器 */
+body.style-modern .login-container,
+body.style-modern .register-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+}
+
+/* 简约风格容器 */
+body.style-minimalist .login-container,
+body.style-minimalist .register-container {
+    box-shadow: none;
+    border: 1px solid #e8e8ed;
+}
+
+/* 商务风格容器 */
+body.style-business .login-container,
+body.style-business .register-container {
+    border-radius: var(--radius-sm);
+}
+
+/* 科技风格容器 */
+body.style-tech .login-container,
+body.style-tech .register-container {
+    background: #1a1a2e;
+    border: 1px solid #2a2a3e;
+}
+
+/* 活泼风格容器 */
+body.style-playful .login-container,
+body.style-playful .register-container {
+    border-radius: 32px;
+}
+
+/* Logo区域 */
+.logo-section {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.logo {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto var(--spacing-md);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border-radius: var(--radius-lg);
+}
+
+.app-name {
+    font-size: var(--font-size-h1);
+    font-weight: bold;
+    color: var(--neutral-900);
+    margin-bottom: var(--spacing-xs);
+}
+
+.app-slogan {
+    font-size: var(--font-size-body);
+    color: #8e8ea0;
+}
+
+/* 表单 */
+.login-form,
+.register-form {
+    margin-bottom: var(--spacing-lg);
+}
+
+.input-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.input-field {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 2px solid #e8e8ed;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-body);
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.input-field:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+/* 科技风格输入框 */
+body.style-tech .input-field {
+    background: #0d0d15;
+    border-color: #2a2a3e;
+    color: white;
+}
+
+/* 按钮 */
+.login-btn,
+.register-btn {
+    width: 100%;
+    padding: var(--spacing-md);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-body);
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover,
+.register-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.login-btn:active,
+.register-btn:active {
+    animation: pulse 0.2s ease;
+}
+
+/* 商务风格按钮 */
+body.style-business .login-btn,
+body.style-business .register-btn {
+    background: #2563eb;
+    border-radius: var(--radius-sm);
+}
+
+/* 科技风格按钮 */
+body.style-tech .login-btn,
+body.style-tech .register-btn {
+    background: linear-gradient(135deg, #00d4ff 0%, #7b2cbf 100%);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+/* 活泼风格按钮 */
+body.style-playful .login-btn,
+body.style-playful .register-btn {
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+    border-radius: 20px;
+}
+
+/* 分割线 */
+.divider {
+    text-align: center;
+    margin: var(--spacing-lg) 0;
+    position: relative;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e8e8ed;
+}
+
+.divider span {
+    background: white;
+    padding: 0 var(--spacing-md);
+    color: #8e8ea0;
+    font-size: var(--font-size-caption);
+    position: relative;
+}
+
+/* 社交登录 */
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.social-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid #e8e8ed;
+    background: white;
+    cursor: pointer;
+    font-size: var(--font-size-caption);
+    transition: all 0.2s ease;
+}
+
+.social-btn:hover {
+    border-color: var(--primary-color);
+}
+
+/* 注册入口 */
+.register-section {
+    text-align: center;
+    font-size: var(--font-size-body);
+    color: #8e8ea0;
+}
+
+.register-section a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* 动画 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.login-container,
+.register-container {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* 响应式 */
+@media (max-width: 767px) {
+    body {
+        padding: 0;
+    }
+
+    .login-container,
+    .register-container,
+    .home-container,
+    .profile-container,
+    .list-container,
+    .detail-container {
+        max-width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .login-container,
+    .register-container,
+    .home-container,
+    .profile-container,
+    .list-container,
+    .detail-container {
+        max-width: 480px;
+        padding: var(--spacing-xxl) var(--spacing-xl);
+    }
+}
+
+@media (min-width: 1024px) {
+    .login-container,
+    .register-container,
+    .home-container,
+    .profile-container,
+    .list-container,
+    .detail-container {
+        max-width: 420px;
+        padding: 56px 48px;
+    }
+}

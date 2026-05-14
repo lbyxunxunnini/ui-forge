@@ -1,0 +1,5 @@
+{
+  "name": "ui-forge",
+  "description": "面向 App 和 Web UI 的设计工作流 skill。用于新页面设计、重设计、设计评审、设计系统收口和 HTML/CSS/SVG 设计产物生成。优先用在需要从需求理解推进到结构、视觉、交互和输出规范的任务；兼容 uif-、/ui-forge、uid-、/ui-design 等旧触发方式。",
+  "version": "0.1.0"
+}
