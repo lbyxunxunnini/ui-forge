@@ -124,6 +124,6 @@ git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
 
 ## Version
 
-Current version: `0.1.2`
+Current version: `0.1.3`
 
-`0.1.2` fixes the trigger mechanism by adding explicit trigger keywords (`uif -`/`uif `/`uid -`) and forced invocation rules to the frontmatter description, and removes redundant trigger lists from the body.
+`0.1.3` aligns description format with flutter-forge/h5-forge (3-line structure), fixes logical contradictions (L1/L2 vs prohibition rules), corrects role names, adds missing reference links, and standardizes "UI设计师" naming across all files.

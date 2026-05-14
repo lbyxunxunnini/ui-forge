@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.3] - 2026-05-15
+
+格式对齐与逻辑修复
+
+- Description 精简为 3 行，与 flutter-forge/h5-forge 格式统一，改为手动触发语义
+- 修复"禁止只给一个方案"与 L1/L2 规则的矛盾，限定为 L3/L4 场景
+- 修复 input_incomplete_handling.md 中不存在的"页面工程师"角色名
+- 统一全项目"UI设计师"命名（无空格版本）
+- SKILL.md 新增 task_runtime_prompt.md 和 input_incomplete_handling.md 引用链接
+- 合并重复的持久化模式进入条件
+- discussion_mechanism.md、question_budget.md、role_gate_matrix.md 同步更新角色名
+
 ## [0.1.2] - 2026-05-14
 
 触发机制修复

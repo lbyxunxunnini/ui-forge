@@ -1,10 +1,9 @@
 ---
 name: ui-forge
 description: >-
-  面向 App 和 Web UI 的设计工作流 skill。除纯知识问答、闲聊、通用 git 操作外，UI 设计相关任务必须进入 ui-forge，由 skill 内部决定执行路径。
-  硬触发关键词：”uif-”、”uif -”、”uif “、”uid-”、”/ui-forge”、”/ui-design”、”使用 ui-forge”、”调用 ui-forge”、”按 ui-forge 工作模式处理”。用户输入以 “uif” 或 “uid” 开头时必须触发。
-  UI 设计任务均必须调用，包括但不限于：新页面设计、重设计、设计评审、设计系统收口、HTML/CSS/SVG 产物生成、视觉诊断、交互规范。
-  不要因为任务看起来简单就跳过，skill 内部自动选择诊断/设计/交付模式。
+  面向 App 和 Web UI 的设计工作流 skill。手动触发后由 skill 内部决定执行路径，不要因为任务看起来简单就跳过。
+  触发关键词：”uif-”、”uif -”、”uif “、”uid-”、”/ui-forge”、”/ui-design”、”使用 ui-forge”、”调用 ui-forge”、”按 ui-forge 工作模式处理”。用户输入以 “uif” 或 “uid” 开头时触发。
+  skill 内部自动选择诊断/设计/交付模式。
 ---
 
 # UI Forge
@@ -21,9 +20,8 @@ UI 设计工作流 skill。和 `polanyi-design` 分层：`polanyi-design` 负责
 
 满足以下任一条件时，进入ui-forge持久化模式：
 
-1. 用户首次触发ui-forge skill
-2. 用户明确说"使用ui-forge"
-3. 用户说"设计一个...页面"
+1. 用户触发ui-forge skill（通过关键词或明确说"使用ui-forge"）
+2. 用户说"设计一个...页面"
 
 ### 保持条件
 
@@ -353,7 +351,7 @@ UI设计师在执行调整时，必须检查是否影响展示：
 - 请确认这些细节，或提出调整建议
 ```
 
-**禁止：**
+**禁止（L3/L4 场景下）：**
 - 只给一个方案
 - 只问"确认或调整"
 - 不提供方案选择
@@ -431,12 +429,12 @@ UI设计师在执行调整时，必须检查是否影响展示：
 
 ```
 [ui-forge] 需求分析师：（你的分析）
-[ui-forge] UI 设计师：（你的分析）
+[ui-forge] UI设计师：（你的分析）
 ```
 
 **禁止**：跳过前面角色直接给结论。**禁止**：合并多个角色到一段输出。
 
-需求分析师输出后，如果仍有关键逻辑待确认，必须停在需求分析师，不允许继续输出 UI 设计师。
+需求分析师输出后，如果仍有关键逻辑待确认，必须停在需求分析师，不允许继续输出 UI设计师。
 
 ### 角色输出标注
 
@@ -448,6 +446,8 @@ UI设计师在执行调整时，必须检查是否影响展示：
 - UI设计师详细逻辑：[ui_designer.md](references/roles/ui_designer.md)
 - 讨论回合机制：[discussion_mechanism.md](references/discussion_mechanism.md)
 - 上游返回机制：[escalation_mechanism.md](references/escalation_mechanism.md)
+- 任务运行时提示：[task_runtime_prompt.md](references/task_runtime_prompt.md)
+- 输入不完整处理：[input_incomplete_handling.md](references/input_incomplete_handling.md)
 - 记忆功能：[memory_protocol.md](references/memory_protocol.md)
 - Polanyi 判断层接入：[polanyi_integration.md](references/polanyi_integration.md)
 - 常用设计 recipes：[recipes.md](references/recipes.md)
