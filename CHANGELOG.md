@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2] - 2026-05-14
+
+触发机制修复
+
+- 重写 SKILL.md frontmatter description：加入硬触发关键词变体（`uif -`/`uif `/`uid -`）、强制调用规则、防误判规则
+- 精简 SKILL.md：删除正文重复的触发列表（硬触发、语义触发、示例表达）
+
 ## [0.1.1] - 2026-05-14
 
 ### Changed

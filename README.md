@@ -1,6 +1,6 @@
 # UI Forge
 
-GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Current version: `0.1.1`
+GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Current version: `0.1.2`
 
 UI Forge is a UI design workflow skill for App and Web work. It is meant for tasks that need to move from requirement clarification into structure, visual direction, interaction states, and delivery artifacts such as HTML/CSS/SVG or design tokens.
 
@@ -124,6 +124,6 @@ git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
 
 ## Version
 
-Current version: `0.1.1`
+Current version: `0.1.2`
 
-`0.1.1` rewrites the public README to reduce repetition, remove stale outward-facing copy, and tighten repository links and release metadata.
+`0.1.2` fixes the trigger mechanism by adding explicit trigger keywords (`uif -`/`uif `/`uid -`) and forced invocation rules to the frontmatter description, and removes redundant trigger lists from the body.
