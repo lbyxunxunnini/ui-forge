@@ -1,101 +1,95 @@
 # UI Forge
 
-GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Current version: `0.1.2`
+GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.1.3`
 
-UI Forge is a UI design workflow skill for App and Web work. It is meant for tasks that need to move from requirement clarification into structure, visual direction, interaction states, and delivery artifacts such as HTML/CSS/SVG or design tokens.
+UI Forge is a UI design **controller** for App and Web work. It routes tasks through diagnose, design, and delivery modes automatically, manages question budgets, enforces output completeness, and produces structured HTML/CSS/SVG deliverables.
 
 It is not a replacement for `polanyi-design`. `polanyi-design` is the judgment layer. UI Forge is the execution layer. The split is documented in [references/polanyi_integration.md](references/polanyi_integration.md).
 
-## Use It For
+## Entry Points
 
-- new page design
-- redesign and UI critique
-- design system alignment
-- interaction spec and frontend handoff
-- generating structured design outputs instead of loose suggestions
+| Prefix | Mode | When to use |
+|--------|------|-------------|
+| `uif-` | Standard | Normal UI tasks, auto-route |
+| `uif-fast` | Fast | Small tweaks: color, spacing, font, icon swap |
+| `uif-a` | Autonomous | Full auto, fill gaps with assumptions |
+| `uif-critique` | Critique | UI diagnosis only, no delivery |
+| `uif-deliver` | Deliver | Explicit HTML/CSS/SVG/tokens/REQUIREMENTS |
+
+Backward-compatible: `uid-`, `/ui-forge`, `/ui-design` still work.
 
 ## What It Does
 
-- routes work into `diagnose`, `design`, or `delivery` mode
-- uses question budgets instead of defaulting to long requirement interviews
+- routes work into diagnose, design, deliver, fast, or autonomous mode
+- uses question budgets (L1-L4) instead of defaulting to long requirement interviews
 - separates requirement and UI roles with explicit confirmation gates
-- can continue from existing design context instead of restarting from scratch
-- produces structured outputs, not only aesthetic commentary
+- manages project-level design cards for long-term UI rules
+- produces structured outputs with completeness validation
+- auto-exits after task completion (no persistent mode)
 
-Key workflow references:
+## Quick Start
 
-- [SKILL.md](SKILL.md)
-- [references/question_budget.md](references/question_budget.md)
-- [references/evaluation_rubric.md](references/evaluation_rubric.md)
-- [references/recipes.md](references/recipes.md)
+- [QUICKSTART.md](QUICKSTART.md): 3-minute setup and usage
+- [CHEATSHEET.md](CHEATSHEET.md): common tasks reference
 
-## Trigger Examples
+## Core References
 
-Typical prompts:
-
-```text
-/ui-forge redesign this dashboard and explain why it feels templated
-use ui-forge to design an iOS settings page in dark mode
-uif- create a web login page and include HTML/CSS output
-uid- help me tighten a design system for forms and action bars
-```
-
-Backward-compatible triggers still supported:
-
-- `uif-`
-- `uid-`
-- `/ui-forge`
-- `/ui-design`
-
-## Output Modes
-
-`Diagnose`
-
-- critique an existing UI
-- identify structure, hierarchy, state, and visual issues
-- recommend concrete fixes
-
-`Design`
-
-- clarify requirements
-- propose layout, components, and interaction states
-- tighten direction before implementation
-
-`Delivery`
-
-- output HTML/CSS/SVG, tokens, and handoff structure
-- package the result in a stable format for frontend use
-
-Related references:
-
-- [references/output_structure.md](references/output_structure.md)
-- [references/design_tokens.md](references/design_tokens.md)
-- [references/design_styles.md](references/design_styles.md)
-
-## Repository Guide
-
-Start here:
-
-- [SKILL.md](SKILL.md): main workflow
+- [SKILL.md](SKILL.md): full workflow specification
 - [CHANGELOG.md](CHANGELOG.md): release history
 - [CONTRIBUTING.md](CONTRIBUTING.md): contribution guide
 
-Examples and demos:
+Design workflow:
+
+- [references/question_budget.md](references/question_budget.md)
+- [references/evaluation_rubric.md](references/evaluation_rubric.md)
+- [references/recipes.md](references/recipes.md)
+- [references/design_card_protocol.md](references/design_card_protocol.md)
+- [references/fast_mode.md](references/fast_mode.md)
+- [references/autonomous_mode.md](references/autonomous_mode.md)
+
+Operations:
+
+- [references/release_playbook.md](references/release_playbook.md)
+- [references/demo_transcript.md](references/demo_transcript.md)
+
+Roles and gates:
+
+- [references/roles/requirement_analyst.md](references/roles/requirement_analyst.md)
+- [references/roles/ui_designer.md](references/roles/ui_designer.md)
+- [references/shared_workflow_gates/role_gate_matrix.md](references/shared_workflow_gates/role_gate_matrix.md)
+
+Polanyi integration:
+
+- [references/polanyi_integration.md](references/polanyi_integration.md)
+
+## Examples and Demos
 
 - [examples/dashboard-critique.md](examples/dashboard-critique.md)
 - [examples/login-example.md](examples/login-example.md)
-- [demo/index.html](demo/index.html)
 - [demo/login-demo.html](demo/login-demo.html)
 - [demo/home-demo.html](demo/home-demo.html)
 
-Core references:
+## Scripts
 
-- [references/polanyi_integration.md](references/polanyi_integration.md)
-- [references/recipes.md](references/recipes.md)
-- [references/question_budget.md](references/question_budget.md)
-- [references/memory_protocol.md](references/memory_protocol.md)
+- `scripts/project_snapshot.py` — scan project UI assets, output JSON summary
+- `scripts/init_design_card.py` — generate design card draft from project assets
+- `scripts/validate_design_card.py` — validate design card fields and formats
+- `scripts/validate_output.py` — check design-output deliverable completeness
+- `scripts/route_golden_tests.py` — verify prompt routing to correct mode
+- `scripts/doctor.sh` — one-click project health check
+- `scripts/validate_release.sh` — release gate (doctor + golden tests + version + changelog)
 
-Assets and templates:
+```bash
+python3 scripts/project_snapshot.py                  # scan current project
+python3 scripts/init_design_card.py                  # generate draft card
+python3 scripts/validate_design_card.py <card.yaml>  # validate a card
+python3 scripts/validate_output.py design-output/    # check deliverables
+python3 scripts/route_golden_tests.py                # test routing
+bash scripts/doctor.sh                               # health check
+bash scripts/validate_release.sh                     # release gate
+```
+
+## Assets and Templates
 
 - [templates/login.html](templates/login.html)
 - [templates/home.html](templates/home.html)
@@ -103,20 +97,13 @@ Assets and templates:
 - [components/components.css](components/components.css)
 - [config/design-config.json](config/design-config.json)
 
-Validation:
-
-- [tests/test-cases.md](tests/test-cases.md)
-- [screenshots/README.md](screenshots/README.md)
-
 ## Install
-
-If your tool supports skill repos directly, install from GitHub:
 
 ```bash
 npx skills add lbyxunxunnini/ui-forge
 ```
 
-Manual install is also fine. Clone the repo into your tool's skill directory, for example:
+Or clone manually:
 
 ```bash
 git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
@@ -124,6 +111,8 @@ git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
 
 ## Version
 
-Current version: `0.1.3`
+Current: `v0.1.3`
 
-`0.1.3` aligns description format with flutter-forge/h5-forge (3-line structure), fixes logical contradictions (L1/L2 vs prohibition rules), corrects role names, adds missing reference links, and standardizes "UI设计师" naming across all files.
+`v0.1.3` adds mode reference docs: `fast_mode.md`, `autonomous_mode.md`, `release_playbook.md`, `demo_transcript.md` (7 real interaction demos).
+
+`v0.1.2` added validation and release tooling. `v0.1.1` added design card automation. `v0.1.0` was the major restructuring.

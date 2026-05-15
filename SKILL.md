@@ -1,66 +1,40 @@
 ---
 name: ui-forge
 description: >-
-  面向 App 和 Web UI 的设计工作流 skill。手动触发后由 skill 内部决定执行路径，不要因为任务看起来简单就跳过。
-  触发关键词：”uif-”、”uif -”、”uif “、”uid-”、”/ui-forge”、”/ui-design”、”使用 ui-forge”、”调用 ui-forge”、”按 ui-forge 工作模式处理”。用户输入以 “uif” 或 “uid” 开头时触发。
+  面向 App 和 Web UI 的设计工作流 controller。手动触发后由 skill 内部决定执行路径，不要因为任务看起来简单就跳过。
+  触发关键词："uif-"、"uif -"、"uif "、"uid-"、"/ui-forge"、"/ui-design"、"使用 ui-forge"、"调用 ui-forge"、"按 ui-forge 工作模式处理"。
+  用户输入以 "uif" 或 "uid" 开头时触发。
   skill 内部自动选择诊断/设计/交付模式。
 ---
 
 # UI Forge
 
-UI 设计工作流 skill。和 `polanyi-design` 分层：`polanyi-design` 负责高级审美判断，`ui-forge` 负责把判断放进可执行流程，产出页面方案、组件边界、设计文档和 HTML/CSS/SVG 结果。
+UI 设计 controller。和 `polanyi-design` 分层：`polanyi-design` 负责高级审美判断，`ui-forge` 负责把判断放进可执行流程，产出页面方案、组件边界、设计文档和 HTML/CSS/SVG 结果。
 
-三种模式：**诊断**（分析哪里失衡）、**设计**（从需求推进到结构和视觉）、**交付**（输出 HTML/CSS/SVG/tokens）。由任务意图自动选择。
+**一轮任务完成即退出。用户说"继续这个页面/继续这个设计系统"时再恢复 session。不常驻，不拦截非设计任务。**
 
-## 持久化模式
+## 入口策略
 
-**重要规则：skill进入后不要自动退出，直到用户明确要求退出。**
+| 入口 | 模式 | 说明 |
+|------|------|------|
+| `uif-` | 标准 | 自动路由到诊断/设计/交付 |
+| `uif-fast` | 快速 | 小调整：颜色、字号、间距、图标替换，0-1问 |
+| `uif-a` | 全自动 | 缺失信息用推荐方案补齐，高风险才确认 |
+| `uif-critique` | 诊断 | 只做 UI 诊断，不默认进入交付 |
+| `uif-deliver` | 交付 | 明确要 HTML/CSS/SVG/tokens/REQUIREMENTS 输出 |
 
-### 进入条件
+向后兼容：`uid-`、`/ui-forge`、`/ui-design` 仍可用。
 
-满足以下任一条件时，进入ui-forge持久化模式：
+## 持久化架构
 
-1. 用户触发ui-forge skill（通过关键词或明确说"使用ui-forge"）
-2. 用户说"设计一个...页面"
+| 层 | 路径 | 生命周期 | 说明 |
+|----|------|----------|------|
+| session | 内存 | 当前任务 | 任务完成自动清除 |
+| design card | `.ui-forge/projects/<project>.design_card.yaml` | 项目级 | 长期 UI 规则 |
+| 设计输出 | `design-output/` | 持久 | 用户可见交付物 |
+| 设计记忆 | `.design-doc/` | 持久 | 当前项目设计过程 |
 
-### 保持条件
-
-在持久化模式中，满足以下任一条件时保持模式：
-
-1. 用户继续输入与UI设计相关的内容
-2. 用户在确认设计方向
-3. 用户在调整设计细节
-4. 用户在询问设计相关的问题
-
-### 退出询问
-
-当用户输入与设计不相关的内容时，询问用户是否退出：
-
-```
-[ui-forge] 检测到非设计相关输入
-- 当前输入：（用户输入的内容）
-- 是否退出UI设计模式？
-- 选项A：退出，切换到普通模式
-- 选项B：继续，保持UI设计模式
-```
-
-### 退出条件
-
-满足以下任一条件时，退出ui-forge模式：
-
-1. 用户明确说"退出ui-forge"
-2. 用户说"不需要设计了"
-3. 用户说"切换到普通模式"
-4. 用户确认退出询问
-
-### 退出格式
-
-```
-[ui-forge] 已退出UI设计模式
-- 已完成的设计：（列出已完成的设计）
-- 输出目录：（设计文件输出目录）
-- 感谢使用ui-forge
-```
+**禁止读取其它项目 `.design-doc` 或旧输出当作当前项目规则。**
 
 ## 工作模式
 
@@ -68,11 +42,7 @@ UI 设计工作流 skill。和 `polanyi-design` 分层：`polanyi-design` 负责
 
 ### 提问预算路由
 
-详细预算、角色侧建议和通用规则详见：
-
-- [question_budget.md](references/question_budget.md)
-
-这里只保留主结论：
+详细预算、角色侧建议和通用规则详见：[question_budget.md](references/question_budget.md)
 
 - `L1` 微调 / 已知修改点：`0-2` 问
 - `L2` 常规单页设计：`2-4` 问
@@ -88,17 +58,32 @@ UI 设计工作流 skill。和 `polanyi-design` 分层：`polanyi-design` 负责
 
 如果用户已经明确给出了足够信息，直接降低提问预算，不重复追问已知信息。
 
-### 工作流程
+### 模式路由
 
-#### 标准流程（新页面/功能设计）
+| 模式 | 触发条件 | 输出 |
+|------|----------|------|
+| 诊断 | "review"、"critique"、"what's wrong"、现有 UI 截图 | 结构分析 + 修正建议 |
+| 设计 | "design"、"create"、新页面 | 布局 + 组件 + 交互状态 |
+| 交付 | "output"、"HTML"、"CSS"、"handoff" | HTML/CSS/SVG/tokens/REQUIREMENTS |
+| 快速 | 小改动，目标明确 | 直接修正，无访谈 |
+| 设计系统 | 3+ 页面、tokens、组件库 | 锁定 tokens + 组件库 + 一致性报告 |
+
+### Polanyi 路由
+
+`polanyi-design` 何时介入：[polanyi_integration.md](references/polanyi_integration.md)
+
+- 用户说"看起来像模板""感觉不对""太平""太挤"时，主动调用 polanyi 判断
+- 需求阶段不调用；有页面草案后调用做 gestalt 诊断；进入交付时把诊断结论翻译成 tokens 和布局约束
+
+## 核心流程
+
+### 标准流程（新页面/功能设计）
 
 ```
 用户输入需求
+  → 读取 design card（如存在）
   → 检查记忆（.design-doc/README.md）
   → 如存在同名模块：提醒用户，询问是否重新设计（重新设计为首选）
-    → 用户选择"重新设计"：确认覆写，清除旧记忆，重新开始
-    → 用户选择"继续使用"：读取已有设计，恢复上下文
-    → 用户选择"查看详情"：展示已有设计详情，再次询问
   → 判断提问预算层级（L1 / L2 / L3 / L4）
   → 需求分析师按预算分轮追问（每轮只问1个问题，必要时给2-5个选项）
   → 需求分析师确认需求
@@ -108,6 +93,40 @@ UI 设计工作流 skill。和 `polanyi-design` 分层：`polanyi-design` 负责
   → 用户确认设计
   → 保存记忆文档（.design-doc/）
   → 输出设计文件（/design-output/）
+  → 任务完成，自动退出
+```
+
+### 快速流程（uif-fast）
+
+```
+用户输入调整需求
+  → 读取 design card 和当前输出
+  → 直接执行调整（跳过需求分析师）
+  → 检查变更影响
+  → 输出修改后的文件
+  → 自动退出
+```
+
+### 全自动流程（uif-a）
+
+```
+用户输入需求
+  → 读取 design card（如存在）
+  → 自动补全缺失信息（用推荐方案）
+  → 只在高风险决策时确认（功能变更、风格重构）
+  → 完整设计流程
+  → 输出设计文件
+  → 自动退出
+```
+
+### 诊断流程（uif-critique）
+
+```
+用户输入诊断请求
+  → 分析现有 UI
+  → 输出：整体诊断 + 2-4条结构性修正 + 禁止项
+  → 不进入交付，除非用户明确要求
+  → 自动退出
 ```
 
 **重要规则：**
@@ -123,8 +142,9 @@ UI 设计工作流 skill。和 `polanyi-design` 分层：`polanyi-design` 负责
 10. **所有图标必须单独导出为SVG文件，存放在 design-output/icons/ 目录，不能遗漏。**
 11. **输出前必须通过完整性检查清单，缺任何一项都不得输出。**
 12. **必须输出REQUIREMENTS.md交互需求文档，供LLM生成APP代码使用。**
+13. **一轮任务完成即退出，不常驻。**
 
-#### 项目级设计规则（3+页面时自动激活）
+### 项目级设计规则（3+页面时自动激活）
 
 **当项目包含3个及以上页面时，自动激活以下规则：**
 
@@ -149,7 +169,7 @@ UI 设计工作流 skill。和 `polanyi-design` 分层：`polanyi-design` 负责
 - 不一致项必须修正后再输出
 - 输出 `design-output/consistency-report.md` 校验报告
 
-#### 输出完整性检查清单（输出前必须逐项验证）
+### 输出完整性检查清单（输出前必须逐项验证）
 
 **文件完整性：**
 - [ ] `index.html` — 主页面（可直接浏览器打开）
@@ -182,7 +202,7 @@ UI 设计工作流 skill。和 `polanyi-design` 分层：`polanyi-design` 负责
 - 补充中：正在补充缺失项
 ```
 
-#### UI规范调整流程（大小、间距、颜色、字体、图标替换、距离移动等）
+### UI规范调整流程（大小、间距、颜色、字体、图标替换、距离移动等）
 
 ```
 用户输入UI规范调整需求
@@ -193,6 +213,7 @@ UI 设计工作流 skill。和 `polanyi-design` 分层：`polanyi-design` 负责
   → 需求分析师自主指定方案（除非巨大变动）
   → UI设计师执行调整
   → 输出设计文件
+  → 自动退出
 ```
 
 ### UI规范调整范围
@@ -276,12 +297,21 @@ UI设计师在执行调整时，必须检查是否影响展示：
 - 请用户确认
 ```
 
-### 两个角色
+### 角色体系
 
-两个角色都应以"顾问式协作"方式工作，而不是只做机械执行：
+#### 对外角色（用户可见）
 
-- **需求分析师**：负责需求理解、需求拆解、需求收口，确保需求边界清晰，保存需求文档，处理UI变更影响
-- **UI设计师**：负责设计方向、风格选择、布局设计、组件设计，确保设计质量，保存设计文档，执行UI规范调整
+- **需求分析师**：需求理解、拆解、收口，确保需求边界清晰
+- **UI设计师**：设计方向、风格选择、布局设计、组件设计
+
+#### 内部角色（自动调度）
+
+- **controller**：路由、阶段、预算、升级降级
+- **UX 设计师**：信息架构、流程、状态、可用性（L3/L4 自动介入）
+- **交付工程师**：HTML/CSS/SVG/tokens/REQUIREMENTS 输出
+- **验证工程师**：输出完整性、一致性、响应式、a11y
+
+对外不展示全部角色，只在需要时出现。
 
 ### Relentless追问模式（核心）
 
@@ -449,6 +479,9 @@ UI设计师在执行调整时，必须检查是否影响展示：
 - 任务运行时提示：[task_runtime_prompt.md](references/task_runtime_prompt.md)
 - 输入不完整处理：[input_incomplete_handling.md](references/input_incomplete_handling.md)
 - 记忆功能：[memory_protocol.md](references/memory_protocol.md)
+- 设计规则卡：[design_card_protocol.md](references/design_card_protocol.md)
+- 快速模式：[fast_mode.md](references/fast_mode.md)
+- 自动模式：[autonomous_mode.md](references/autonomous_mode.md)
 - Polanyi 判断层接入：[polanyi_integration.md](references/polanyi_integration.md)
 - 常用设计 recipes：[recipes.md](references/recipes.md)
 - 评测标准：[evaluation_rubric.md](references/evaluation_rubric.md)
@@ -480,4 +513,16 @@ uif-设计一个电商APP首页，简约风格，包含底部导航栏
 
 ```
 uif-设计一个深色模式的设置页面，科技风格
+```
+
+### 快速修改
+
+```
+uif-fast把主按钮改成#4F46E5
+```
+
+### 全自动设计
+
+```
+uif-a设计一个后台仪表盘，数据密集型，深色主题
 ```
