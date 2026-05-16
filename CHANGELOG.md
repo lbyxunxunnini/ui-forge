@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.1.5] - 2026-05-17
+
+脚本可执行权限修复与 doctor.sh 覆盖扩展。
+
+### Fixed
+
+- scripts/ 全部脚本添加可执行权限（chmod +x）
+- doctor.sh REF_FILES 从 12 项扩展到 23 项，覆盖全部 references 文档
+- doctor.sh SCRIPTS 数组新增 validate_release.sh
+
 ## [v0.1.4] - 2026-05-17
 
 Agent-pm 审查：规则一致性与模式感知行为修复。

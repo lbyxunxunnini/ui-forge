@@ -107,6 +107,17 @@ REF_FILES=(
     "references/skill_visibility.md"
     "references/roles/requirement_analyst.md"
     "references/roles/ui_designer.md"
+    "references/fast_mode.md"
+    "references/autonomous_mode.md"
+    "references/task_runtime_prompt.md"
+    "references/input_incomplete_handling.md"
+    "references/animation_effects.md"
+    "references/discussion_mechanism.md"
+    "references/escalation_mechanism.md"
+    "references/release_playbook.md"
+    "references/demo_transcript.md"
+    "references/shared_workflow_gates/role_gate_matrix.md"
+    "references/shared_workflow_gates/requirement_confirmation.md"
 )
 
 for f in "${REF_FILES[@]}"; do
@@ -128,6 +139,7 @@ SCRIPTS=(
     "scripts/validate_output.py"
     "scripts/route_golden_tests.py"
     "scripts/doctor.sh"
+    "scripts/validate_release.sh"
 )
 
 for s in "${SCRIPTS[@]}"; do
