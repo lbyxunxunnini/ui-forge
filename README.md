@@ -1,44 +1,44 @@
 # UI Forge
 
-GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.1.3`
+GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.1.4`
 
-UI Forge is a UI design **controller** for App and Web work. It routes tasks through diagnose, design, and delivery modes automatically, manages question budgets, enforces output completeness, and produces structured HTML/CSS/SVG deliverables.
+UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路由到诊断、设计、交付模式，管理提问预算，强制输出完整性，产出结构化的 HTML/CSS/SVG 交付物。
 
-It is not a replacement for `polanyi-design`. `polanyi-design` is the judgment layer. UI Forge is the execution layer. The split is documented in [references/polanyi_integration.md](references/polanyi_integration.md).
+它不是 `polanyi-design` 的替代品。`polanyi-design` 是审美判断层，UI Forge 是执行层。分层说明见 [references/polanyi_integration.md](references/polanyi_integration.md)。
 
-## Entry Points
+## 入口
 
-| Prefix | Mode | When to use |
-|--------|------|-------------|
-| `uif-` | Standard | Normal UI tasks, auto-route |
-| `uif-fast` | Fast | Small tweaks: color, spacing, font, icon swap |
-| `uif-a` | Autonomous | Full auto, fill gaps with assumptions |
-| `uif-critique` | Critique | UI diagnosis only, no delivery |
-| `uif-deliver` | Deliver | Explicit HTML/CSS/SVG/tokens/REQUIREMENTS |
+| 前缀 | 模式 | 使用场景 |
+|------|------|----------|
+| `uif-` | 标准 | 常规 UI 任务，自动路由 |
+| `uif-fast` | 快速 | 小调整：颜色、间距、字体、图标替换 |
+| `uif-a` | 全自动 | 全自动执行，缺失信息用推荐方案补齐 |
+| `uif-critique` | 诊断 | 仅做 UI 诊断，不进入交付 |
+| `uif-deliver` | 交付 | 明确要 HTML/CSS/SVG/tokens/REQUIREMENTS 输出 |
 
-Backward-compatible: `uid-`, `/ui-forge`, `/ui-design` still work.
+向后兼容：`uid-`、`/ui-forge`、`/ui-design` 仍可用。
 
-## What It Does
+## 功能
 
-- routes work into diagnose, design, deliver, fast, or autonomous mode
-- uses question budgets (L1-L4) instead of defaulting to long requirement interviews
-- separates requirement and UI roles with explicit confirmation gates
-- manages project-level design cards for long-term UI rules
-- produces structured outputs with completeness validation
-- auto-exits after task completion (no persistent mode)
+- 将任务自动路由到诊断、设计、交付、快速或全自动模式
+- 用提问预算（L1-L4）替代默认的长流程需求访谈
+- 分离需求分析师和 UI 设计师角色，带明确的确认门禁
+- 管理项目级设计规则卡（design card），维护长期 UI 规则
+- 产出结构化输出，带完整性校验
+- 任务完成自动退出（不常驻模式）
 
-## Quick Start
+## 快速开始
 
-- [QUICKSTART.md](QUICKSTART.md): 3-minute setup and usage
-- [CHEATSHEET.md](CHEATSHEET.md): common tasks reference
+- [QUICKSTART.md](QUICKSTART.md)：3 分钟上手
+- [CHEATSHEET.md](CHEATSHEET.md)：常用任务速查
 
-## Core References
+## 核心文档
 
-- [SKILL.md](SKILL.md): full workflow specification
-- [CHANGELOG.md](CHANGELOG.md): release history
-- [CONTRIBUTING.md](CONTRIBUTING.md): contribution guide
+- [SKILL.md](SKILL.md)：完整工作流规范
+- [CHANGELOG.md](CHANGELOG.md)：版本历史
+- [CONTRIBUTING.md](CONTRIBUTING.md)：贡献指南
 
-Design workflow:
+设计工作流：
 
 - [references/question_budget.md](references/question_budget.md)
 - [references/evaluation_rubric.md](references/evaluation_rubric.md)
@@ -47,49 +47,49 @@ Design workflow:
 - [references/fast_mode.md](references/fast_mode.md)
 - [references/autonomous_mode.md](references/autonomous_mode.md)
 
-Operations:
+运维：
 
 - [references/release_playbook.md](references/release_playbook.md)
 - [references/demo_transcript.md](references/demo_transcript.md)
 
-Roles and gates:
+角色与门禁：
 
 - [references/roles/requirement_analyst.md](references/roles/requirement_analyst.md)
 - [references/roles/ui_designer.md](references/roles/ui_designer.md)
 - [references/shared_workflow_gates/role_gate_matrix.md](references/shared_workflow_gates/role_gate_matrix.md)
 
-Polanyi integration:
+Polanyi 集成：
 
 - [references/polanyi_integration.md](references/polanyi_integration.md)
 
-## Examples and Demos
+## 示例与 Demo
 
 - [examples/dashboard-critique.md](examples/dashboard-critique.md)
 - [examples/login-example.md](examples/login-example.md)
 - [demo/login-demo.html](demo/login-demo.html)
 - [demo/home-demo.html](demo/home-demo.html)
 
-## Scripts
+## 脚本
 
-- `scripts/project_snapshot.py` — scan project UI assets, output JSON summary
-- `scripts/init_design_card.py` — generate design card draft from project assets
-- `scripts/validate_design_card.py` — validate design card fields and formats
-- `scripts/validate_output.py` — check design-output deliverable completeness
-- `scripts/route_golden_tests.py` — verify prompt routing to correct mode
-- `scripts/doctor.sh` — one-click project health check
-- `scripts/validate_release.sh` — release gate (doctor + golden tests + version + changelog)
+- `scripts/project_snapshot.py` — 扫描项目 UI 资产，输出 JSON 摘要
+- `scripts/init_design_card.py` — 从项目资产生成设计规则卡草稿
+- `scripts/validate_design_card.py` — 校验设计规则卡字段和格式
+- `scripts/validate_output.py` — 检查 design-output 交付物完整性
+- `scripts/route_golden_tests.py` — 验证 prompt 路由到正确模式
+- `scripts/doctor.sh` — 一键项目健康检查
+- `scripts/validate_release.sh` — 发布门禁（doctor + golden tests + 版本 + changelog）
 
 ```bash
-python3 scripts/project_snapshot.py                  # scan current project
-python3 scripts/init_design_card.py                  # generate draft card
-python3 scripts/validate_design_card.py <card.yaml>  # validate a card
-python3 scripts/validate_output.py design-output/    # check deliverables
-python3 scripts/route_golden_tests.py                # test routing
-bash scripts/doctor.sh                               # health check
-bash scripts/validate_release.sh                     # release gate
+python3 scripts/project_snapshot.py                  # 扫描当前项目
+python3 scripts/init_design_card.py                  # 生成设计规则卡草稿
+python3 scripts/validate_design_card.py <card.yaml>  # 校验设计规则卡
+python3 scripts/validate_output.py design-output/    # 检查交付物
+python3 scripts/route_golden_tests.py                # 测试路由
+bash scripts/doctor.sh                               # 健康检查
+bash scripts/validate_release.sh                     # 发布门禁
 ```
 
-## Assets and Templates
+## 资产与模板
 
 - [templates/login.html](templates/login.html)
 - [templates/home.html](templates/home.html)
@@ -97,22 +97,24 @@ bash scripts/validate_release.sh                     # release gate
 - [components/components.css](components/components.css)
 - [config/design-config.json](config/design-config.json)
 
-## Install
+## 安装
 
 ```bash
 npx skills add lbyxunxunnini/ui-forge
 ```
 
-Or clone manually:
+或手动克隆：
 
 ```bash
 git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
 ```
 
-## Version
+## 版本
 
-Current: `v0.1.3`
+当前版本：`v0.1.4`
 
-`v0.1.3` adds mode reference docs: `fast_mode.md`, `autonomous_mode.md`, `release_playbook.md`, `demo_transcript.md` (7 real interaction demos).
+`v0.1.4` agent-pm 审查修复：统一设计系统锁定触发条件为第3页、"不要假装理解"改为模式感知规则、L2/L3 路由补充边界示例、明确讨论升级路径和返回/讨论回合关系、增加用户拒绝提供信息的降级策略、移除跨文件重复规则。
 
-`v0.1.2` added validation and release tooling. `v0.1.1` added design card automation. `v0.1.0` was the major restructuring.
+`v0.1.3` 新增模式参考文档：`fast_mode.md`、`autonomous_mode.md`、`release_playbook.md`、`demo_transcript.md`（7 个真实交互示例）。
+
+`v0.1.2` 新增校验和发布工具。`v0.1.1` 新增设计规则卡自动化。`v0.1.0` 为主结构重构版本。

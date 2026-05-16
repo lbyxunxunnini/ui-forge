@@ -1,5 +1,27 @@
 # Changelog
 
+## [v0.1.4] - 2026-05-17
+
+Agent-pm 审查：规则一致性与模式感知行为修复。
+
+### Fixed
+
+- SKILL.md："不要假装理解"改为模式感知规则（标准模式追问、fast 模式升级确认、autonomous 模式标注假设）
+- SKILL.md：L2/L3 路由边界补充具体示例（登录页→L2、仪表盘→L3、电商首页→L3、设计系统→L4）
+- SKILL.md：快速模式触发条件引用 fast_mode.md
+- SKILL.md：设计系统锁定触发条件统一为第3页（此前多处不一致为"第1页"）
+- SKILL.md：组件库抽取触发条件统一为"跨会话累计3个页面"
+- SKILL.md：移除重复规则（"禁止只问视觉细节"、"每轮只问1个问题"、"任务完成即退出"）
+- SKILL.md：引用列表补充 skill_visibility.md
+- autonomous_mode.md：示例不再自动补齐交互决策（原"toast 提示"改为视觉参数）
+- discussion_mechanism.md：4轮上限后增加升级路径（UI设计师可标注风险但必须执行）
+- escalation_mechanism.md：明确返回机制（2次）与讨论回合（4轮）独立计数
+- input_incomplete_handling.md：增加用户拒绝提供信息时的降级策略（切换到 autonomous 模式）
+- fast_mode.md：增加最小输出集（style.css + tokens.json，不需要 REQUIREMENTS.md）
+- requirement_analyst.md：同步模式感知的"不要假装理解"规则
+- ui_designer.md：同步设计系统锁定触发条件和组件库抽取触发条件
+- memory_protocol.md：同步设计系统锁定触发条件和组件库抽取触发条件
+
 ## [v0.1.3] - 2026-05-15
 
 Mode reference documentation.
