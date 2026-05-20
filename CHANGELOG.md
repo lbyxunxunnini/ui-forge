@@ -1,5 +1,29 @@
 # Changelog
 
+## [v0.1.6] - 2026-05-20
+
+Agent-pm 审查：视觉质量门禁与交付物展示规范强化。
+
+### Added
+
+- `references/roles/visual_reviewer.md` — 视觉审查师角色卡：6维度/30分评分体系（视觉丰富度/信息层次/组件精致度/色彩节奏/功能闭环/文稿精度），门禁阈值（≥24放行/15-23返回/<15重设计），Polanyi调用规则，修改轮次限制
+- `references/shared_workflow_gates/visual_quality_gate.md` — 视觉质量门禁：触发条件、评分维度权重、单维度一票否决规则、与交付阶段的关系
+- SKILL.md：新增视觉质量基线（丰富度/层次/精致度/色彩 4维度检查清单）
+- SKILL.md：新增画廊展示规范（所有页面平铺展示、模块分组、手机mockup、待实现占位）
+- SKILL.md：强化输出完整性检查清单（+功能闭环检查、+组件完整性检查、+记忆结构检查）
+- SKILL.md：角色体系新增视觉审查师（UI设计师和交付工程师之间的质量审查节点）
+- references/evaluation_rubric.md：新增评分示例和视觉质量附加评估（6维度/30分）
+- references/output_structure.md：新增DESIGN-GUIDE.md详细模板（逐元素标注要求）
+- references/roles/ui_designer.md：新增视觉质量基线要求（丰富度/层次/精致度/色彩）
+- references/memory_protocol.md：新增迭代记忆检查点（设计决策锁定、变更影响追踪、迭代一致性验证）
+
+### Changed
+
+- SKILL.md：交付物展示规范从iframe手机切换改为画廊平铺布局
+- SKILL.md：核心流程新增视觉审查师评分步骤
+- references/shared_workflow_gates/role_gate_matrix.md：新增视觉审查师门禁，交付阶段门禁更新为"视觉质量门禁通过后才允许进入"
+- README.md：新增视觉审查师和视觉质量门禁的链接
+
 ## [v0.1.5] - 2026-05-17
 
 脚本可执行权限修复与 doctor.sh 覆盖扩展。

@@ -1,6 +1,6 @@
 # UI Forge
 
-GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.1.5`
+GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.1.6`
 
 UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路由到诊断、设计、交付模式，管理提问预算，强制输出完整性，产出结构化的 HTML/CSS/SVG 交付物。
 
@@ -56,7 +56,9 @@ UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路
 
 - [references/roles/requirement_analyst.md](references/roles/requirement_analyst.md)
 - [references/roles/ui_designer.md](references/roles/ui_designer.md)
+- [references/roles/visual_reviewer.md](references/roles/visual_reviewer.md)
 - [references/shared_workflow_gates/role_gate_matrix.md](references/shared_workflow_gates/role_gate_matrix.md)
+- [references/shared_workflow_gates/visual_quality_gate.md](references/shared_workflow_gates/visual_quality_gate.md)
 
 Polanyi 集成：
 
@@ -111,7 +113,9 @@ git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
 
 ## 版本
 
-当前版本：`v0.1.5`
+当前版本：`v0.1.6`
+
+`v0.1.6` agent-pm 审查：新增视觉审查师角色（6维度/30分评分）、视觉质量门禁、画廊展示规范、强化输出完整性检查清单、迭代记忆检查点。
 
 `v0.1.5` 脚本可执行权限修复、doctor.sh 参考文档覆盖扩展。
 

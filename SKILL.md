@@ -97,8 +97,14 @@ UI 设计 controller。和 `polanyi-design` 分层：`polanyi-design` 负责高�
   → UI设计师按预算展开设计（不是所有任务都要完整七步）
   → UI设计师输出设计方案
   → 用户确认设计
+  → 视觉审查师评分（6维度/30分，详见 references/roles/visual_reviewer.md）
+    → ≥24分：直接进入交付
+    → 20-23分：进入交付，标记需优化项
+    → 15-19分：返回UI设计师修改低分项（最多2轮）
+    → <15分：触发重设计
   → 保存记忆文档（.design-doc/）
-  → 输出设计文件（/design-output/）
+  → 交付工程师输出设计文件（/design-output/）
+  → 验证工程师完整性检查
   → 任务完成，自动退出
 ```
 
@@ -175,30 +181,128 @@ UI 设计 controller。和 `polanyi-design` 分层：`polanyi-design` 负责高�
 - 不一致项必须修正后再输出
 - 输出 `design-output/consistency-report.md` 校验报告
 
+### 视觉质量基线（交付前必须满足）
+
+**设计方案必须达到以下视觉质量标准，否则不得进入交付：**
+
+#### 视觉丰富度
+- [ ] 每个页面至少有 1 个视觉锚点（插画/数据可视化/大图/渐变光效）
+- [ ] 空状态有插画或图标组合（不能只显示文字）
+- [ ] 图标有变化（Tab 图标有选中/未选中双态，操作图标有语义区分）
+- [ ] 数据展示有可视化（进度环/趋势图/对比图，不只是数字）
+
+#### 信息层次
+- [ ] 页面最重要的信息/操作在视觉上最突出（尺寸/颜色/位置）
+- [ ] 页面有呼吸感（适当留白，不塞满内容）
+- [ ] 有明确的主次关系（标题 > 正文 > 辅助文字，通过字号/字重/颜色区分）
+- [ ] 有视觉动线（用户第一眼看到什么有设计）
+
+#### 组件精致度
+- [ ] 按钮至少 3 种状态（default + active + disabled）
+- [ ] 输入框至少 3 种状态（normal + focus + error）
+- [ ] 卡片至少 2 种状态（default + hover/pressed）
+- [ ] 同类组件间距/圆角/阴影一致
+
+#### 色彩节奏
+- [ ] 不只有主色，有辅助色或状态色
+- [ ] 背景有层次（页面 ≠ 卡片 ≠ 弹窗）
+- [ ] 文字有层次（主文字 ≠ 次文字 ≠ 辅助文字）
+- [ ] 色彩传达正确情绪（运动风/简约风/科技风等）
+
+### 交付物展示规范（输出时必须遵循）
+
+**index.html 是设计画廊页面——所有页面平铺展示，不是 iframe 切换：**
+
+- [ ] 所有页面以手机外框 mockup 形式平铺在同一个网页上
+- [ ] 同一模块的页面在一组内横向排列
+- [ ] 不同模块上下排列，整个网页可滚动浏览
+- [ ] 每个页面有独立的手机外框（375x812 或项目指定尺寸）
+- [ ] 待实现页面也有占位 mockup（灰色占位+标注"待实现"）
+- [ ] 模块分组标题清晰（如"消息模块""队伍模块"）
+- [ ] 每个 mockup 下方标注页面名称和文件路径
+
+**展示布局：**
+```
+[整个网页，可上下滚动]
+
+── 模块标题：消息 ──────────
+  ┌──────────┐  ┌──────────┐
+  │ 消息列表  │  │ 聊天详情  │
+  │ (phone)  │  │ (待实现)  │
+  └──────────┘  └──────────┘
+
+── 模块标题：队伍 ──────────
+  ┌──────────┐
+  │ 队伍页面  │
+  │ (phone)  │
+  └──────────┘
+
+── 模块标题：发现 ──────────
+  ┌──────────┐  ┌──────────┐  ┌──────────┐
+  │ 发现页面  │  │ 骑友详情  │  │ 活动详情  │
+  │ (phone)  │  │ (待实现)  │  │ (待实现)  │
+  └──────────┘  └──────────┘  └──────────┘
+```
+
+**展示文件结构：**
+```
+/design-output/
+├── index.html          # 设计画廊（所有页面平铺展示）
+├── pages/              # 各页面独立文件（可单独预览）
+│   ├── messages.html
+│   ├── team.html
+│   ├── discover.html
+│   ├── profile.html
+│   └── riding.html
+├── style.css           # 全局样式
+├── tokens.json         # 设计Token
+├── icons/              # 图标
+├── components/         # 共享组件库
+├── DESIGN-GUIDE.md     # 设计规范（精确到逐元素）
+├── REQUIREMENTS.md     # 交互需求
+└── routing.json        # 页面路由表
+```
+
 ### 输出完整性检查清单（输出前必须逐项验证）
 
 **文件完整性：**
-- [ ] `index.html` — 主页面（可直接浏览器打开）
+- [ ] `index.html` — 主展示页（含手机外框，可直接浏览器打开）
+- [ ] `pages/` — 各页面独立文件（每个可单独预览）
 - [ ] `style.css` — 独立样式文件（禁止内联到HTML）
 - [ ] `tokens.json` — 设计Token（JSON格式，非markdown）
 - [ ] `icons/` — 所有图标SVG文件
-- [ ] `DESIGN-GUIDE.md` — 设计规范文档
+- [ ] `components/` — 共享组件库（3+页面时必须有）
+- [ ] `DESIGN-GUIDE.md` — 设计规范文档（精确到逐元素标注）
 - [ ] `REQUIREMENTS.md` — 交互需求文档（含组件状态、交互流程、API对接、异常处理）
+- [ ] `routing.json` — 页面路由表（多页面时必须有）
 
 **图标完整性（逐个核对HTML中所有SVG）：**
 - [ ] HTML中每个 `<svg>` 标签都对应导出一个 `.svg` 文件
 - [ ] 图标命名符合规范（英文小写+连字符）
 - [ ] 图标颜色使用 `currentColor` 或设计主色
+- [ ] 导出数量 ≥ HTML中内嵌SVG数量
+
+**功能闭环检查：**
+- [ ] REQUIREMENTS.md 中定义的每个功能在 HTML 中有实现或明确标注"待实现"
+- [ ] 所有可交互元素有预期行为（点击/滑动/输入等）
+- [ ] 异常状态有处理（空状态/错误状态/加载状态）
+- [ ] 无"有结构无功能"的半成品（有按钮但点击无反应）
+
+**组件完整性检查（3+页面时）：**
+- [ ] `components/` 目录非空
+- [ ] 包含重复出现的共享组件（按钮/输入框/卡片/导航等）
+- [ ] 每个组件可独立预览
 
 **记忆结构检查：**
 - [ ] 记忆文件按模块存放（如 `.design-doc/auth/login-regular.md`）
 - [ ] 模块目录有 `_index.md` 索引
 - [ ] 总目录 `README.md` 已更新
+- [ ] 设计决策已锁定记录（颜色/字体/间距的锁定值+原因）
 
 **HTML质量检查：**
 - [ ] 包含输入验证状态CSS（错误/成功边框色）
 - [ ] 包含错误提示UI样式（toast或inline error）
-- [ ] 包含空状态处理
+- [ ] 包含空状态处理（有插画，不只是文字）
 - [ ] 包含至少2个响应式断点
 
 **日志格式检查（P0，违反即错误）：**
@@ -209,7 +313,7 @@ UI 设计 controller。和 `polanyi-design` 分层：`polanyi-design` 负责高�
 
 **检查不通过时的处理：**
 ```
-[ui-forge] UI设计师：输出检查未通过
+[ui-forge] 交付工程师：输出检查未通过
 - 缺失项：（具体缺失的文件或内容）
 - 补充中：正在补充缺失项
 ```
@@ -315,6 +419,7 @@ UI设计师在执行调整时，必须检查是否影响展示：
 
 - **需求分析师**：需求理解、拆解、收口，确保需求边界清晰
 - **UI设计师**：设计方向、风格选择、布局设计、组件设计
+- **视觉审查师**：视觉质量评分（6维度/30分），门禁判定，确保交付物达到视觉质量基线
 
 #### 内部角色（自动调度）
 
@@ -491,6 +596,7 @@ UI设计师在执行调整时，必须检查是否影响展示：
 
 - 需求分析师详细逻辑：[requirement_analyst.md](references/roles/requirement_analyst.md)
 - UI设计师详细逻辑：[ui_designer.md](references/roles/ui_designer.md)
+- 视觉审查师详细逻辑：[visual_reviewer.md](references/roles/visual_reviewer.md)
 - 讨论回合机制：[discussion_mechanism.md](references/discussion_mechanism.md)
 - 上游返回机制：[escalation_mechanism.md](references/escalation_mechanism.md)
 - 任务运行时提示：[task_runtime_prompt.md](references/task_runtime_prompt.md)
@@ -505,6 +611,7 @@ UI设计师在执行调整时，必须检查是否影响展示：
 - 评测标准：[evaluation_rubric.md](references/evaluation_rubric.md)
 - 需求确认闸门：[requirement_confirmation.md](references/shared_workflow_gates/requirement_confirmation.md)
 - 角色放行矩阵：[role_gate_matrix.md](references/shared_workflow_gates/role_gate_matrix.md)
+- 视觉质量门禁：[visual_quality_gate.md](references/shared_workflow_gates/visual_quality_gate.md)
 
 ## 设计规范
 
