@@ -96,12 +96,12 @@ UI 设计 controller。和 `polanyi-design` 分层：`polanyi-design` 负责高�
   → 保存记忆文档（.design-doc/）
   → UI设计师按预算展开设计（不是所有任务都要完整七步）
   → UI设计师输出设计方案
-  → 用户确认设计
   → 视觉审查师评分（6维度/30分，详见 references/roles/visual_reviewer.md）
-    → ≥24分：直接进入交付
-    → 20-23分：进入交付，标记需优化项
-    → 15-19分：返回UI设计师修改低分项（最多2轮）
+    → ≥24分：直接进入用户确认
+    → 20-23分：进入用户确认，标注需优化项
+    → 15-19分：返回UI设计师修改低分项（最多2轮），修改后重新评分
     → <15分：触发重设计
+  → 用户确认设计（带评分参考，可选择接受或要求调整）
   → 保存记忆文档（.design-doc/）
   → 交付工程师输出设计文件（/design-output/）
   → 验证工程师完整性检查
@@ -292,6 +292,7 @@ UI 设计 controller。和 `polanyi-design` 分层：`polanyi-design` 负责高�
 - [ ] `components/` 目录非空
 - [ ] 包含重复出现的共享组件（按钮/输入框/卡片/导航等）
 - [ ] 每个组件可独立预览
+- [ ] `consistency-report.md` 已输出（跨页面一致性校验报告）
 
 **记忆结构检查：**
 - [ ] 记忆文件按模块存放（如 `.design-doc/auth/login-regular.md`）
