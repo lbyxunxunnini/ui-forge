@@ -1,6 +1,6 @@
 # UI Forge
 
-GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.1.6`
+GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.1.7`
 
 UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路由到诊断、设计、交付模式，管理提问预算，强制输出完整性，产出结构化的 HTML/CSS/SVG 交付物。
 
@@ -13,14 +13,13 @@ UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路
 | `uif-` | 标准 | 常规 UI 任务，自动路由 |
 | `uif-fast` | 快速 | 小调整：颜色、间距、字体、图标替换 |
 | `uif-a` | 全自动 | 全自动执行，缺失信息用推荐方案补齐 |
-| `uif-critique` | 诊断 | 仅做 UI 诊断，不进入交付 |
-| `uif-deliver` | 交付 | 明确要 HTML/CSS/SVG/tokens/REQUIREMENTS 输出 |
+| `uif-iter` | 迭代 | 已完成项目的版本化迭代优化 |
 
-向后兼容：`uid-`、`/ui-forge`、`/ui-design` 仍可用。
+其他触发：`/ui-forge`、`使用 ui-forge`、`调用 ui-forge`、`按 ui-forge 工作模式处理`。
 
 ## 功能
 
-- 将任务自动路由到诊断、设计、交付、快速或全自动模式
+- 将任务自动路由到诊断、设计、交付、快速、全自动或迭代模式
 - 用提问预算（L1-L4）替代默认的长流程需求访谈
 - 分离需求分析师和 UI 设计师角色，带明确的确认门禁
 - 管理项目级设计规则卡（design card），维护长期 UI 规则
@@ -46,6 +45,7 @@ UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路
 - [references/design_card_protocol.md](references/design_card_protocol.md)
 - [references/fast_mode.md](references/fast_mode.md)
 - [references/autonomous_mode.md](references/autonomous_mode.md)
+- [references/iteration_mode.md](references/iteration_mode.md)
 
 运维：
 
@@ -113,7 +113,9 @@ git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
 
 ## 版本
 
-当前版本：`v0.1.6`
+当前版本：`v0.1.7`
+
+`v0.1.7` agent-pm 审查修复 + 迭代模式：默认值分级规则统一、门禁审查轮次区分、一票否决规则补充、SKILL.md 精简至 446 行、触发词精简、新增迭代模式（uif-iter）、routing.json 同步规则、consistency-report.md 提升为必出产物。
 
 `v0.1.6` agent-pm 审查：新增视觉审查师角色（6维度/30分评分）、视觉质量门禁、画廊展示规范、强化输出完整性检查清单、迭代记忆检查点。
 

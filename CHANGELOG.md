@@ -1,5 +1,31 @@
 # Changelog
 
+## [v0.1.7] - 2026-05-21
+
+Agent-pm 审查修复 + 迭代模式 + 触发词精简 + SKILL.md 精简。
+
+### Added
+
+- `references/iteration_mode.md` — 迭代模式：已完成项目的版本化迭代优化，完整流程+版本号确认+CHANGELOG/UI-CHANGELOG 变更追踪，文档同步更新规则（P0）
+- `references/issue-ledger.md` — 问题台账，记录审查 issue 状态
+
+### Changed
+
+- SKILL.md：新增迭代流程（uif-iter），入口表和模式路由新增迭代模式
+- SKILL.md：触发词精简——删除 `uif-critique`、`uif-deliver`、`uid-`、`/ui-design`
+- SKILL.md：交付物展示规范 ASCII 图移到 output_structure.md，示例引用 QUICKSTART.md
+- SKILL.md：consistency-report.md 从子清单提升到文件完整性主清单
+- SKILL.md：routing.json 新增同步更新规则（后续新增页面必须同步更新路由表）
+- SKILL.md：默认值规则统一为分级处理（核心需求必须确认，非核心默认值可告知）
+- SKILL.md：视觉质量门禁流程补充 L 级别审查轮次（L1/L2 1轮，L3/L4 1-2轮）
+- README.md：入口表同步更新，新增迭代模式，删除已移除触发词
+- references/input_incomplete_handling.md：默认值规则同步为分级处理
+- references/skill_visibility.md：默认值规则同步为分级处理
+- references/roles/visual_reviewer.md：门禁规则补充"单维度一票否决"
+- references/roles/ui_designer.md：路由表规则补充同步更新说明
+- references/output_structure.md：新增画廊展示规范（从 SKILL.md 移入）
+- .skillhub.json：版本号更新，描述同步删除已移除触发词
+
 ## [v0.1.6] - 2026-05-20
 
 Agent-pm 审查：视觉质量门禁与交付物展示规范强化。
