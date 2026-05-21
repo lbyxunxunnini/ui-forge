@@ -1,6 +1,6 @@
 # UI Forge
 
-GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.1.7`
+GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.1.8`
 
 UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路由到诊断、设计、交付模式，管理提问预算，强制输出完整性，产出结构化的 HTML/CSS/SVG 交付物。
 
@@ -113,7 +113,9 @@ git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
 
 ## 版本
 
-当前版本：`v0.1.7`
+当前版本：`v0.1.8`
+
+`v0.1.8` agent-pm 审查修复 + 最佳实践强化：版本号一致性修复、memory_protocol 去重、role_gate_matrix 放行条件对齐、添加 Iron Law 底线规则、添加 Red Flags 自我欺骗预判表、标准流程 digraph 化、description 字段精简为纯触发条件。
 
 `v0.1.7` agent-pm 审查修复 + 迭代模式：默认值分级规则统一、门禁审查轮次区分、一票否决规则补充、SKILL.md 精简至 446 行、触发词精简、新增迭代模式（uif-iter）、routing.json 同步规则、consistency-report.md 提升为必出产物。
 

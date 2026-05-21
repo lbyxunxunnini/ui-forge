@@ -1,5 +1,25 @@
 # Changelog
 
+## [v0.1.8] - 2026-05-21
+
+Agent-pm 审查修复 + 最佳实践强化。
+
+### Fixed
+
+- `VERSION` 文件同步为 v0.1.7（此前落后于 .skillhub.json，doctor.sh 报 2 errors）
+- `references/memory_protocol.md`：删除体系1段落的完整重复
+- `references/shared_workflow_gates/role_gate_matrix.md`：放行条件补充"20-23 分标注需优化项"，与 SKILL.md 对齐
+
+### Added
+
+- SKILL.md：Iron Law 底线规则 — `NO DESIGN OUTPUT WITHOUT COMPLETENESS CHECKLIST PASSING FIRST`
+- SKILL.md：Red Flags 自我欺骗预判表（6 条），覆盖跳过流程、省略检查、虚高评分等常见 rationalization
+- SKILL.md：标准流程从 ASCII 转为 digraph 格式，含判断节点和 yes/no 分支
+
+### Changed
+
+- SKILL.md：frontmatter description 精简为纯触发条件，删除"手动触发后由 skill 内部决定执行路径"等工作流描述（BP-006）
+
 ## [v0.1.7] - 2026-05-21
 
 Agent-pm 审查修复 + 迭代模式 + 触发词精简 + SKILL.md 精简。

@@ -1,13 +1,14 @@
 ---
 name: ui-forge
 description: >-
-  面向 App 和 Web UI 的设计工作流 controller。手动触发后由 skill 内部决定执行路径，不要因为任务看起来简单就跳过。
+  面向 App 和 Web UI 的设计工作流 controller。
   触发关键词："uif-"、"uif-fast"、"uif-a"、"uif-iter"、"/ui-forge"、"使用 ui-forge"、"调用 ui-forge"、"按 ui-forge 工作模式处理"。
   用户输入以 "uif" 开头时触发。
-  skill 内部自动选择诊断/设计/交付/迭代模式。
 ---
 
 # UI Forge
+
+> **NO DESIGN OUTPUT WITHOUT COMPLETENESS CHECKLIST PASSING FIRST**
 
 UI 设计 controller。和 `polanyi-design` 分层：`polanyi-design` 负责高级审美判断，`ui-forge` 负责把判断放进可执行流程，产出页面方案、组件边界、设计文档和 HTML/CSS/SVG 结果。
 
@@ -85,28 +86,51 @@ UI 设计 controller。和 `polanyi-design` 分层：`polanyi-design` 负责高�
 
 ### 标准流程（新页面/功能设计）
 
-```
-用户输入需求
-  → 读取 design card（如存在）
-  → 检查记忆（.design-doc/README.md）
-  → 如存在同名模块：提醒用户，询问是否重新设计（重新设计为首选）
-  → 判断提问预算层级（L1 / L2 / L3 / L4）
-  → 需求分析师按预算分轮追问（详见追问原则）
-  → 需求分析师确认需求
-  → 保存记忆文档（.design-doc/）
-  → UI设计师按预算展开设计（不是所有任务都要完整七步）
-  → UI设计师输出设计方案
-  → 视觉审查师评分（6维度/30分，详见 references/roles/visual_reviewer.md）
-    → ≥24分：直接进入用户确认
-    → 20-23分：进入用户确认，标注需优化项
-    → 15-19分：返回UI设计师修改低分项（最多2轮），修改后重新评分
-    → <15分：触发重设计
-  （审查轮次按 L 级别：L1/L2 执行 1 轮审查；L3/L4 执行 1-2 轮——设计方案审查 + 交付前审查）
-  → 用户确认设计（带评分参考，可选择接受或要求调整）
-  → 保存记忆文档（.design-doc/）
-  → 交付工程师输出设计文件（/design-output/）
-  → 验证工程师完整性检查
-  → 任务完成，自动退出
+```dot
+digraph ui_forge_standard {
+    rankdir=TB;
+    node [shape=box];
+
+    start [label="用户输入需求" shape=doublecircle];
+    load [label="读取 design card\n检查记忆 (.design-doc/)"];
+    dup [shape=diamond label="存在同名模块?"];
+    ask_re [label="提醒用户\n推荐：重新设计"];
+    budget [label="判断提问预算\nL1/L2/L3/L4"];
+    analyst [label="需求分析师\n按预算分轮追问"];
+    confirm_req [label="需求分析师确认需求\n保存记忆"];
+    designer [label="UI设计师\n按预算展开设计"];
+    output_design [label="UI设计师输出设计方案"];
+    review [label="视觉审查师评分\n6维度/30分"];
+    score [shape=diamond label="总分?"];
+    user_confirm [label="用户确认设计\n（带评分参考）"];
+    save [label="保存记忆"];
+    deliver [label="交付工程师\n输出 design-output/"];
+    verify [label="验证工程师\n完整性检查"];
+    end [label="任务完成\n自动退出" shape=doublecircle];
+    revise [label="UI设计师\n修改低分项（最多2轮）"];
+    redesign [label="触发重设计"];
+
+    start -> load;
+    load -> dup;
+    dup -> ask_re [label="是"];
+    dup -> budget [label="否"];
+    ask_re -> budget;
+    budget -> analyst;
+    analyst -> confirm_req;
+    confirm_req -> designer;
+    designer -> output_design;
+    output_design -> review;
+    review -> score;
+    score -> user_confirm [label="≥20"];
+    score -> revise [label="15-19"];
+    score -> redesign [label="<15"];
+    revise -> review;
+    redesign -> budget;
+    user_confirm -> save;
+    save -> deliver;
+    deliver -> verify;
+    verify -> end;
+}
 ```
 
 ### 快速流程（uif-fast）
@@ -161,6 +185,17 @@ UI 设计 controller。和 `polanyi-design` 分层：`polanyi-design` 负责高�
 ```
 
 **迭代模式详细规则：** [iteration_mode.md](references/iteration_mode.md)
+
+### Red Flags — 执行阶段
+
+| 想法 | 现实 |
+|------|------|
+| "这个任务很简单，跳过需求分析师" | 简单任务的需求遗漏代价更高，因为修改空间更小 |
+| "检查清单太长了，这次少检查几项" | 缺失的交付物用户一定会发现 |
+| "用户应该理解这个设计" | 用户不理解就是你的问题 |
+| "L2 不需要多方案" | L2 有方向分歧时必须给第 2 个方案 |
+| "视觉审查打个差不多的分就行" | 分数决定是否放行，虚高分数导致烂设计流出 |
+| "这个默认值不用告诉用户" | 非核心默认值可以告知，但不能完全沉默 |
 
 **重要规则：**
 1. **每轮只问1个问题，用户回答后再问下一个。**
