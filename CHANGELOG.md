@@ -1,5 +1,29 @@
 # Changelog
 
+## [v0.1.9] - 2026-05-23
+
+硬门禁体系与角色卡职责收口。
+
+### Added
+
+- SKILL.md：硬门禁 14-20 条（需求→设计阶段闸门、提问预算硬约束、视觉评分硬后果、迭代变更锁定、组件库硬门禁、方案决策闭合、禁止偷懒）
+- references/roles/ui_designer.md：新增"先查再做"规则（设计前必须读取 design card、tokens.json、已输出页面、recipes.md）
+- references/roles/ui_designer.md：新增方案确认回显机制（用户选择方案后回显要点，确认后锁定为设计基线）
+- references/roles/ui_designer.md：新增迭代模式约束（迭代范围锁定为用户明确提出的变更项，禁止"顺便优化"）
+- references/roles/visual_reviewer.md：新增降级交付流程（2轮修改后仍<20分的标准化通知格式）
+
+### Changed
+
+- SKILL.md：视觉质量基线从 SKILL.md 移入 ui_designer.md 和 visual_reviewer.md，消除跨文件重复
+- SKILL.md：输出完整性检查清单精简为引用 ui_designer.md
+- SKILL.md：追问模式精简为引用各角色卡，删除与角色卡重复的通用追问规则
+- SKILL.md：角色体系补充"对外不展示全部角色，只在需要时出现"
+- references/roles/requirement_analyst.md：预算规则从"够用即停"升级为硬约束（达到上限后 auto_assumption 填充，禁止继续追问）
+- references/roles/requirement_analyst.md：自主决策范围细化定义（小变动/中等变动/巨大变动的具体标准）
+- references/roles/requirement_analyst.md：向UI设计师交接格式从"需求收口完成"改为"需求确认单"（含功能清单、需求边界、异常处理方案，待用户确认后放行）
+- references/roles/visual_reviewer.md：门禁阈值从百分比制简化为分数制（≥20放行/15-19返回/<15重设计）
+- references/roles/visual_reviewer.md：硬约束强化（逐维度打分+扣分理由、最多2轮修改、2轮后<20降级交付）
+
 ## [v0.1.8] - 2026-05-21
 
 Agent-pm 审查修复 + 最佳实践强化。

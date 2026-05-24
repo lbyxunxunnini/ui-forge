@@ -1,6 +1,6 @@
 # UI Forge
 
-GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.1.8`
+GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.1.9`
 
 UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路由到诊断、设计、交付模式，管理提问预算，强制输出完整性，产出结构化的 HTML/CSS/SVG 交付物。
 
@@ -113,7 +113,9 @@ git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
 
 ## 版本
 
-当前版本：`v0.1.8`
+当前版本：`v0.1.9`
+
+`v0.1.9` 硬门禁体系与角色卡职责收口：SKILL.md 新增 7 条硬门禁（需求确认闸门、提问预算硬约束、视觉评分硬后果、迭代变更锁定、组件库硬门禁、方案决策闭合、禁止偷懒）；视觉质量基线、检查清单、追问模式从 SKILL.md 移入各角色卡，消除跨文件重复；需求分析师预算规则升级为硬约束+auto_assumption；UI设计师新增先查再做、方案确认回显、迭代约束；视觉审查师门禁阈值简化、评分硬约束、降级交付流程。
 
 `v0.1.8` agent-pm 审查修复 + 最佳实践强化：版本号一致性修复、memory_protocol 去重、role_gate_matrix 放行条件对齐、添加 Iron Law 底线规则、添加 Red Flags 自我欺骗预判表、标准流程 digraph 化、description 字段精简为纯触发条件。
 
