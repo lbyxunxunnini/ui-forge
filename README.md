@@ -1,6 +1,6 @@
 # UI Forge
 
-GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.1.9`
+GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.2.0`
 
 UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路由到诊断、设计、交付模式，管理提问预算，强制输出完整性，产出结构化的 HTML/CSS/SVG 交付物。
 
@@ -12,7 +12,7 @@ UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路
 |------|------|----------|
 | `uif-` | 标准 | 常规 UI 任务，自动路由 |
 | `uif-fast` | 快速 | 小调整：颜色、间距、字体、图标替换 |
-| `uif-a` | 全自动 | 全自动执行，缺失信息用推荐方案补齐 |
+| `uif-a` | 全自动 | 仅自动补齐低风险视觉默认值，核心方向必须确认 |
 | `uif-iter` | 迭代 | 已完成项目的版本化迭代优化 |
 
 其他触发：`/ui-forge`、`使用 ui-forge`、`调用 ui-forge`、`按 ui-forge 工作模式处理`。
@@ -51,6 +51,9 @@ UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路
 
 - [references/release_playbook.md](references/release_playbook.md)
 - [references/demo_transcript.md](references/demo_transcript.md)
+- [references/core_contracts.yaml](references/core_contracts.yaml)
+- [references/maintenance_map.md](references/maintenance_map.md)
+- [references/load_map.md](references/load_map.md)
 
 角色与门禁：
 
@@ -79,7 +82,12 @@ Polanyi 集成：
 - `scripts/validate_output.py` — 检查 design-output 交付物完整性
 - `scripts/route_golden_tests.py` — 验证 prompt 路由到正确模式
 - `scripts/doctor.sh` — 一键项目健康检查
-- `scripts/validate_release.sh` — 发布门禁（doctor + golden tests + 版本 + changelog）
+- `scripts/validate_release.sh` — 发布门禁（doctor + golden tests + metadata / guardrails / session / gates / output protocol）
+- `scripts/check_metadata.sh` — 元数据一致性检查
+- `scripts/check_guardrails.sh` — 主规则与失控处理检查
+- `scripts/check_session.sh` — session 字段与运行时提示检查
+- `scripts/check_gates.sh` — 阶段门禁与主表同步检查
+- `scripts/check_output_protocol.sh` — 输出协议关键项检查
 
 ```bash
 python3 scripts/project_snapshot.py                  # 扫描当前项目
@@ -113,7 +121,9 @@ git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
 
 ## 版本
 
-当前版本：`v0.1.9`
+当前版本：`v0.2.0`
+
+`v0.2.0` task-driver 风格强门禁闭环 + 维护面收敛：新增全局宪法式铁律、Design Task Brief、失控回退和正常结束条件；新增 core_contracts/maintenance_map/load_map 维护主表；三张角色卡、gate matrix、skill visibility 统一为硬合同风格；自动模式收紧为仅允许低风险视觉默认值；发布校验拆分为 metadata / guardrails / session / gates / output protocol 模块；同步清理旧触发词口径与路由测试。
 
 `v0.1.9` 硬门禁体系与角色卡职责收口：SKILL.md 新增 7 条硬门禁（需求确认闸门、提问预算硬约束、视觉评分硬后果、迭代变更锁定、组件库硬门禁、方案决策闭合、禁止偷懒）；视觉质量基线、检查清单、追问模式从 SKILL.md 移入各角色卡，消除跨文件重复；需求分析师预算规则升级为硬约束+auto_assumption；UI设计师新增先查再做、方案确认回显、迭代约束；视觉审查师门禁阈值简化、评分硬约束、降级交付流程。
 

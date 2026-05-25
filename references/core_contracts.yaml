@@ -1,0 +1,103 @@
+version: v0.2.0
+
+global_constitution:
+  principles:
+    - unconfirmed_items_cannot_execute
+    - no_stage_skip
+    - no_fake_completion
+    - no_scope_expansion_without_confirmation
+    - no_mode_exit_without_permission
+    - no_confidence_claim_without_evidence
+
+session_contract:
+  required_fields:
+    - name: mode
+      meaning: 当前工作模式
+    - name: goal_state
+      meaning: 目标是否已确认
+    - name: scope_state
+      meaning: 页面范围与影响范围是否已确认
+    - name: acceptance_state
+      meaning: 验收标准是否已确认
+    - name: constraints_state
+      meaning: 平台、风格、设计系统等约束是否已确认
+    - name: current_work_unit
+      meaning: 当前页面、模块或里程碑
+    - name: work_unit_state
+      meaning: 当前子单元是否冻结、进行中、待验证
+    - name: verification_state
+      meaning: 当前产出是否已验证
+    - name: scope_risk
+      meaning: 是否发现超范围扩展风险
+    - name: plan_conflict_state
+      meaning: 当前发现是否与已确认 brief 冲突
+    - name: mode_lock
+      meaning: 是否允许离开当前模式
+    - name: exit_permission
+      meaning: 是否满足结束条件
+
+gates:
+  - name: core_definition
+    blocks_when: 目标、范围、验收、约束未收口
+  - name: current_work_unit
+    blocks_when: 当前页面或里程碑未冻结却开始设计或交付
+  - name: scope_expansion
+    blocks_when: 顺手新增页面、模块、设计系统变更
+  - name: plan_conflict
+    blocks_when: 新发现与已确认 brief 冲突但未回退
+  - name: visual_gate
+    blocks_when: 视觉审查未通过却进入交付
+  - name: verification_truth
+    blocks_when: 未验证却宣称完成
+  - name: mode_exit
+    blocks_when: 未达到结束条件却试图退出
+
+role_contracts:
+  requirement_analyst:
+    allows:
+      - 收口目标范围验收约束
+      - 形成 Design Task Brief
+      - 在发现冲突时回退确认
+    forbids:
+      - 用推荐方案替代用户确认
+      - brief 未闭环时交给 UI设计师
+  ui_designer:
+    allows:
+      - 仅基于已确认 brief 展开页面与组件设计
+      - 在当前工作单元内追问设计分歧
+      - 发现超范围或冲突时返回上游
+    forbids:
+      - 擅自扩展页面范围
+      - 未闭环就输出可视为完成的方案或代码
+  visual_reviewer:
+    allows:
+      - 独立评分
+      - 阻塞不达标方案
+      - 标注必须修改项
+    forbids:
+      - 代替 UI设计师做新设计
+      - 未验证修改项就放行
+
+maintenance_groups:
+  stage_gates:
+    - SKILL.md
+    - references/shared_workflow_gates/requirement_confirmation.md
+    - references/shared_workflow_gates/role_gate_matrix.md
+  session_runtime:
+    - references/task_runtime_prompt.md
+    - references/core_contracts.yaml
+  role_boundaries:
+    - references/roles/requirement_analyst.md
+    - references/roles/ui_designer.md
+    - references/roles/visual_reviewer.md
+  autonomous_policy:
+    - references/autonomous_mode.md
+    - references/input_incomplete_handling.md
+  release_validation:
+    - scripts/doctor.sh
+    - scripts/validate_release.sh
+    - scripts/check_metadata.sh
+    - scripts/check_guardrails.sh
+    - scripts/check_session.sh
+    - scripts/check_gates.sh
+    - scripts/check_output_protocol.sh

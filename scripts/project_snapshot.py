@@ -13,6 +13,7 @@ import os
 import re
 import sys
 from pathlib import Path
+from typing import Optional
 
 
 def scan_design_output(root: Path) -> dict:
@@ -188,7 +189,7 @@ def extract_fonts_from_css(root: Path) -> list:
     return sorted(fonts)
 
 
-def extract_tokens(root: Path) -> dict | None:
+def extract_tokens(root: Path) -> Optional[dict]:
     """读取 tokens.json（如果存在）。"""
     tokens_path = root / "design-output" / "tokens.json"
     if tokens_path.exists():

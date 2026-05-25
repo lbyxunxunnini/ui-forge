@@ -9,7 +9,8 @@
 #   2. 核心文件存在性
 #   3. 脚本可执行性
 #   4. 文档链接有效性
-#   5. design-output 完整性 (如存在)
+#   5. 合同与维护入口
+#   6. design-output 完整性 (如存在)
 #
 
 set -euo pipefail
@@ -33,7 +34,7 @@ echo "=== UI Forge Doctor ==="
 echo ""
 
 # --- 1. 版本一致性 ---
-echo "[1/5] Version consistency"
+echo "[1/6] Version consistency"
 
 if [ -f VERSION ]; then
     V_VERSION=$(cat VERSION | tr -d '[:space:]')
@@ -71,7 +72,7 @@ fi
 
 # --- 2. 核心文件 ---
 echo ""
-echo "[2/5] Core files"
+echo "[2/6] Core files"
 
 CORE_FILES=(
     "SKILL.md"
@@ -92,7 +93,7 @@ done
 
 # --- 3. References ---
 echo ""
-echo "[3/5] References"
+echo "[3/6] References"
 
 REF_FILES=(
     "references/question_budget.md"
@@ -116,6 +117,9 @@ REF_FILES=(
     "references/escalation_mechanism.md"
     "references/release_playbook.md"
     "references/demo_transcript.md"
+    "references/core_contracts.yaml"
+    "references/maintenance_map.md"
+    "references/load_map.md"
     "references/shared_workflow_gates/role_gate_matrix.md"
     "references/shared_workflow_gates/requirement_confirmation.md"
 )
@@ -130,7 +134,7 @@ done
 
 # --- 4. Scripts ---
 echo ""
-echo "[4/5] Scripts"
+echo "[4/6] Scripts"
 
 SCRIPTS=(
     "scripts/project_snapshot.py"
@@ -140,6 +144,11 @@ SCRIPTS=(
     "scripts/route_golden_tests.py"
     "scripts/doctor.sh"
     "scripts/validate_release.sh"
+    "scripts/check_metadata.sh"
+    "scripts/check_guardrails.sh"
+    "scripts/check_session.sh"
+    "scripts/check_gates.sh"
+    "scripts/check_output_protocol.sh"
 )
 
 for s in "${SCRIPTS[@]}"; do
@@ -166,9 +175,31 @@ else
     warn "route_golden_tests.py has failures (run with --verbose)"
 fi
 
-# --- 5. Design output (optional) ---
+# --- 5. Core contracts ---
 echo ""
-echo "[5/5] Design output (if exists)"
+echo "[5/6] Core contracts"
+
+if bash scripts/check_guardrails.sh > /dev/null 2>&1; then
+    ok "guardrails contract"
+else
+    fail "guardrails contract broken"
+fi
+
+if bash scripts/check_session.sh > /dev/null 2>&1; then
+    ok "session contract"
+else
+    fail "session contract broken"
+fi
+
+if bash scripts/check_gates.sh > /dev/null 2>&1; then
+    ok "gate contract"
+else
+    fail "gate contract broken"
+fi
+
+# --- 6. Design output (optional) ---
+echo ""
+echo "[6/6] Design output (if exists)"
 
 if [ -d "design-output" ]; then
     DO_FILES=("index.html" "style.css" "tokens.json" "DESIGN-GUIDE.md" "REQUIREMENTS.md")

@@ -25,11 +25,7 @@ def detect_entry(prompt: str) -> str:
         return "fast"
     if stripped.startswith("uif-a") or stripped.startswith("uif a") or stripped.startswith("uif_a"):
         return "autonomous"
-    if stripped.startswith("uif-critique") or stripped.startswith("uif critique"):
-        return "critique"
-    if stripped.startswith("uif-deliver") or stripped.startswith("uif deliver"):
-        return "deliver"
-    if stripped.startswith("uif-") or stripped.startswith("uif ") or stripped.startswith("uid-"):
+    if stripped.startswith("uif-") or stripped.startswith("uif "):
         return "standard"
     return "unknown"
 
@@ -39,10 +35,6 @@ def detect_mode(prompt: str, entry: str) -> str:
     # 入口优先
     if entry == "fast":
         return "fast"
-    if entry == "critique":
-        return "diagnose"
-    if entry == "deliver":
-        return "deliver"
     if entry == "autonomous":
         return "design"  # auto 模式走完整设计流程
 
@@ -106,7 +98,7 @@ def detect_budget(prompt: str) -> str:
         return "L4"
 
     # L3：重设计/复杂/诊断
-    l3_keywords = ["redesign", "重设计", "critique", "review", "complex", "复杂", "仪表盘", "dashboard"]
+    l3_keywords = ["redesign", "重设计", "critique", "review", "complex", "复杂", "仪表盘", "dashboard", "为什么", "看起来像模板"]
     if any(kw in lower for kw in l3_keywords):
         return "L3"
 
@@ -168,37 +160,30 @@ GOLDEN_TESTS = [
         "expected_mode": "design",
         "expected_budget": "L3",
     },
-    # 诊断入口
+    # 诊断请求
     {
-        "prompt": "uif-critique review this dashboard screenshot, focus on information hierarchy",
-        "expected_entry": "critique",
-        "expected_mode": "diagnose",
-        "expected_budget": "L3",
-    },
-    {
-        "prompt": "uif-critique这个页面为什么看起来很普通",
-        "expected_entry": "critique",
-        "expected_mode": "diagnose",
-        "expected_budget": "L3",
-    },
-    # 交付入口
-    {
-        "prompt": "uif-deliver output the login page as HTML/CSS/SVG with tokens",
-        "expected_entry": "deliver",
-        "expected_mode": "deliver",
-        "expected_budget": "L2",
-    },
-    {
-        "prompt": "uif-deliver给我导出HTML/CSS/SVG",
-        "expected_entry": "deliver",
-        "expected_mode": "deliver",
-        "expected_budget": "L2",
-    },
-    # 向后兼容
-    {
-        "prompt": "uid-设计一个iOS登录页",
+        "prompt": "uif- review this dashboard screenshot, focus on information hierarchy",
         "expected_entry": "standard",
-        "expected_mode": "design",
+        "expected_mode": "diagnose",
+        "expected_budget": "L3",
+    },
+    {
+        "prompt": "uif-这个页面为什么看起来很普通",
+        "expected_entry": "standard",
+        "expected_mode": "diagnose",
+        "expected_budget": "L3",
+    },
+    # 交付请求
+    {
+        "prompt": "uif- output the login page as HTML/CSS/SVG with tokens",
+        "expected_entry": "standard",
+        "expected_mode": "deliver",
+        "expected_budget": "L2",
+    },
+    {
+        "prompt": "uif-给我导出HTML/CSS/SVG",
+        "expected_entry": "standard",
+        "expected_mode": "deliver",
         "expected_budget": "L2",
     },
     # 复杂场景

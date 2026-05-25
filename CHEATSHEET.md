@@ -6,11 +6,10 @@
 |--------|------|-------------|
 | `uif-` | Standard | Normal UI tasks, auto-route to diagnose/design/deliver |
 | `uif-fast` | Fast | Small tweaks: color, spacing, font, icon swap, local fix |
-| `uif-a` | Autonomous | Full auto design push, fill gaps with assumptions, only confirm high-risk |
-| `uif-critique` | Critique | UI diagnosis only, no delivery by default |
-| `uif-deliver` | Deliver | Explicit HTML/CSS/SVG/tokens/REQUIREMENTS output |
+| `uif-a` | Autonomous | Auto-fill only low-risk visual defaults; confirm core direction |
+| `uif-iter` | Iterate | Versioned iteration on an already completed design project |
 
-Backward-compatible: `uid-`, `/ui-forge`, `/ui-design` still work.
+Additional triggers: `/ui-forge`, `使用 ui-forge`, `调用 ui-forge`, `按 ui-forge 工作模式处理`.
 
 ## Common Tasks
 
@@ -25,18 +24,18 @@ uif-fast change the primary button to #4F46E5
 ```
 
 ### "Review my dashboard"
-```
-uif-critique review this dashboard screenshot, focus on information hierarchy
+```text
+uif- review this dashboard screenshot, focus on information hierarchy
 ```
 
 ### "Give me the HTML/CSS"
-```
-uif-deliver output the login page as HTML/CSS/SVG with tokens and REQUIREMENTS
+```text
+uif- output the login page as HTML/CSS/SVG with tokens and REQUIREMENTS
 ```
 
 ### "Just design it, don't ask me"
-```
-uif-a design a settings page in dark mode, tech style, make reasonable assumptions
+```text
+uif-a design a settings page in dark mode, make reasonable visual defaults but ask before choosing platform or flow
 ```
 
 ### "Redesign this page"
@@ -58,6 +57,7 @@ uif- tighten a design system for forms and action bars
 | Deliver | "output", "HTML", "CSS", "handoff" | HTML/CSS/SVG/tokens/REQUIREMENTS |
 | Fast | Small tweak with clear target | Direct fix, no interview |
 | Design System | 3+ pages, tokens, components | Locked tokens + component library + consistency report |
+| Iterate | Existing completed project + iteration request | Versioned output + changelog |
 
 ## Question Budget
 

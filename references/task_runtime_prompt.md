@@ -1,5 +1,26 @@
 # 任务运行时提示
 
+## Session 状态主表
+
+每轮任务都应隐式维护以下状态；任何关键状态未闭合，都不能伪装成“可以继续”：
+
+- `mode`：当前模式（standard / fast / autonomous / iterate / critique）
+- `goal_state`：目标是否已确认
+- `scope_state`：范围是否已确认
+- `acceptance_state`：验收是否已确认
+- `constraints_state`：平台、风格、设计系统约束是否已确认
+- `current_work_unit`：当前页面、模块或里程碑
+- `work_unit_state`：未冻结 / 已冻结 / 进行中 / 待验证 / 已验证
+- `verification_state`：未验证 / 验证中 / 已验证 / 验证失败
+- `scope_risk`：是否发现超范围风险
+- `plan_conflict_state`：是否与已确认 brief 冲突
+- `mode_lock`：当前是否允许离开工作模式
+- `exit_permission`：是否满足结束条件
+
+当 `goal_state / scope_state / acceptance_state / constraints_state` 任一未闭合时，不允许输出“需求已收口”。
+当 `work_unit_state != 已验证` 时，不允许输出“该子单元完成”。
+当 `exit_permission != true` 时，不允许输出“任务完成”。
+
 ## 两个角色流程
 
 ### 流程输出格式
@@ -27,6 +48,15 @@
 - 确认状态：已确认
 - 交接给：UI设计师
 ```
+
+交接前必须隐式满足：
+
+- `goal_state = confirmed`
+- `scope_state = confirmed`
+- `acceptance_state = confirmed`
+- `constraints_state = confirmed`
+- `current_work_unit` 已明确
+- `work_unit_state = frozen`
 
 ## 讨论回合机制
 

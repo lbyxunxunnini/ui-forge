@@ -37,19 +37,20 @@ uif-a design a dark mode settings page
 ```
 
 Makes reasonable assumptions. Only asks for high-risk decisions. Outputs complete design.
+Only low-risk visual defaults are auto-filled. Product direction still requires confirmation.
 
 ### 4. Just Critique
 
-```
-uif-critique what's wrong with this dashboard?
+```text
+uif- review this dashboard screenshot and focus on information hierarchy
 ```
 
 Diagnosis and recommendations only. No HTML/CSS unless you ask for it.
 
 ### 5. Explicit Delivery
 
-```
-uif-deliver give me the HTML/CSS/SVG for the login page
+```text
+uif- output the login page as HTML/CSS/SVG with tokens and REQUIREMENTS
 ```
 
 Outputs complete handoff package: HTML, CSS, tokens, icons, REQUIREMENTS.

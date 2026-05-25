@@ -1,5 +1,32 @@
 # Changelog
 
+## [v0.2.0] - 2026-05-25
+
+Task-driver 风格硬合同化 + 维护面收敛。
+
+### Added
+
+- `references/core_contracts.yaml` — 集中记录 global constitution、session 核心字段、gate 名称、角色边界、维护面分组
+- `references/maintenance_map.md` — 维护导航，明确改阶段门禁、session 字段、角色边界、自动模式豁免、发布校验时的最小同步文件集合
+- `references/load_map.md` — 核心入口与按问题加载导航
+- `scripts/check_metadata.sh` / `check_guardrails.sh` / `check_session.sh` / `check_gates.sh` / `check_output_protocol.sh` — 发布校验模块
+
+### Changed
+
+- `SKILL.md` — 新增全局宪法式铁律、Design Task Brief、阶段放行条件、范围控制、失控处理、正常结束条件
+- `SKILL.md` — `uif-a` 主流程改为“仅自动补齐低风险视觉默认值”，诊断流程标题去除旧专用触发词
+- `references/task_runtime_prompt.md` — 增加 session 状态主表与交接前置条件
+- `references/roles/requirement_analyst.md` — 改为“仅允许 / 明确禁止 / 违规后强制动作”的硬合同
+- `references/roles/ui_designer.md` — 改为当前工作单元驱动的硬合同
+- `references/roles/visual_reviewer.md` — 改为独立门禁硬合同
+- `references/shared_workflow_gates/role_gate_matrix.md` — 改为 gate 合同风格，补 current_work_unit / exit_permission 约束
+- `references/skill_visibility.md` — 改为输出可见性合同，禁止用完成话术掩盖阶段未闭合
+- `QUICKSTART.md` / `CHEATSHEET.md` / `references/demo_transcript.md` — 移除旧触发词口径，统一为当前入口策略
+- `scripts/route_golden_tests.py` — 删除旧入口兼容测试，统一为当前模式路由
+- `scripts/doctor.sh` — 新增 core contracts 检查
+- `scripts/validate_release.sh` — 从单体检查切为 metadata / guardrails / session / gates / output protocol 模块
+- `README.md` — 新增维护入口与校验脚本导航
+
 ## [v0.1.9] - 2026-05-23
 
 硬门禁体系与角色卡职责收口。
@@ -175,63 +202,3 @@ Design card automation scripts.
 ## [v0.1.0] - 2026-05-15
 
 Major restructuring: from design process document to UI design controller.
-
-### Added
-
-- Entry points: `uif-fast` (quick tweaks), `uif-a` (autonomous), `uif-critique` (diagnosis only), `uif-deliver` (explicit output)
-- Design card protocol: `.ui-forge/projects/<project>.design_card.yaml` for long-term project UI rules
-- Project isolation: forbid reading other projects' design memory or outputs
-- QUICKSTART.md: 3-minute setup guide
-- CHEATSHEET.md: common tasks reference
-- Controller role: internal routing, budget, escalation management
-- UX designer and delivery engineer as internal roles (auto-dispatched, not shown to user)
-- Task-scoped sessions: auto-exit after task completion
-
-### Changed
-
-- **Removed persistent mode**: skill no longer stays active across turns; one task = one session
-- SKILL.md rewritten as controller specification instead of process document
-- README.md restructured around 5 entry points
-- Version scheme switched to `v` prefix (v0.1.0), isolating from pre-restructuring history
-- Role system expanded: 2 visible roles (requirement analyst, UI designer) + 4 internal roles (controller, UX designer, delivery engineer, verification engineer)
-
-### Fixed
-
-- Version inconsistency: README showed 0.1.2 while VERSION/.skillhub showed 0.1.3
-- Conflicting rules: persistent mode vs task-scoped behavior
-
----
-
-## Pre-v0.1.0 History
-
-<details>
-<summary>Internal iterations (0.1.0 - 0.1.3)</summary>
-
-### [0.1.3] - 2026-05-15
-
-格式对齐与逻辑修复
-
-- Description 精简为 3 行，与 flutter-forge/h5-forge 格式统一
-- 修复"禁止只给一个方案"与 L1/L2 规则的矛盾
-- 统一全项目"UI设计师"命名
-
-### [0.1.2] - 2026-05-14
-
-触发机制修复
-
-- 重写 SKILL.md frontmatter description
-- 精简 SKILL.md
-
-### [0.1.1] - 2026-05-14
-
-- 重写公开 README
-- 补齐可点击链接
-- 统一版本元数据
-
-### [0.1.0] - 2026-05-14
-
-- 新增 polanyi_integration.md、recipes.md、evaluation_rubric.md
-- 新增在线预览 Demo
-- 项目正式收口为 ui-forge
-
-</details>

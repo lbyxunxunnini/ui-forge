@@ -7,10 +7,12 @@
 # 检查项:
 #   1. doctor.sh 全部通过
 #   2. route_golden_tests 全部通过
-#   3. 版本号格式正确 (vX.Y.Z)
-#   4. CHANGELOG 包含当前版本条目
-#   5. SKILL.md frontmatter 存在
-#   6. 无未提交的 git 变更 (可选)
+#   3. metadata 模块
+#   4. guardrails 模块
+#   5. session 模块
+#   6. gates 模块
+#   7. output_protocol 模块
+#   8. 无未提交的 git 变更 (可选)
 #
 
 set -euo pipefail
@@ -33,7 +35,7 @@ echo "=== UI Forge Release Validation ==="
 echo ""
 
 # --- 1. Doctor ---
-echo "[1/6] Running doctor..."
+echo "[1/8] Running doctor..."
 if bash scripts/doctor.sh "$ROOT" > /dev/null 2>&1; then
     ok "doctor.sh passed"
 else
@@ -42,67 +44,66 @@ fi
 
 # --- 2. Route golden tests ---
 echo ""
-echo "[2/6] Running route golden tests..."
+echo "[2/8] Running route golden tests..."
 if python3 scripts/route_golden_tests.py > /dev/null 2>&1; then
     ok "route_golden_tests.py passed"
 else
     fail "route_golden_tests.py failed (run 'python3 scripts/route_golden_tests.py --verbose')"
 fi
 
-# --- 3. Version format ---
+# --- 3. Metadata ---
 echo ""
-echo "[3/6] Version format"
+echo "[3/8] Metadata"
 
-if [ -f VERSION ]; then
-    V=$(cat VERSION | tr -d '[:space:]')
-    if [[ "$V" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-        ok "VERSION format: $V"
-    else
-        fail "VERSION format invalid: '$V' (expected vX.Y.Z)"
-    fi
+if bash scripts/check_metadata.sh "$ROOT" > /dev/null 2>&1; then
+    ok "metadata contract"
 else
-    fail "VERSION file missing"
+    fail "metadata contract failed"
 fi
 
-# --- 4. CHANGELOG entry ---
+# --- 4. Guardrails ---
 echo ""
-echo "[4/6] CHANGELOG entry"
+echo "[4/8] Guardrails"
 
-if [ -f CHANGELOG.md ]; then
-    if grep -q "## \[$V\]" CHANGELOG.md; then
-        ok "CHANGELOG contains [$V]"
-    else
-        fail "CHANGELOG missing [$V] entry"
-    fi
+if bash scripts/check_guardrails.sh "$ROOT" > /dev/null 2>&1; then
+    ok "guardrails contract"
 else
-    fail "CHANGELOG.md missing"
+    fail "guardrails contract failed"
 fi
 
-# --- 5. SKILL.md frontmatter ---
+# --- 5. Session ---
 echo ""
-echo "[5/6] SKILL.md frontmatter"
+echo "[5/8] Session"
 
-if [ -f SKILL.md ]; then
-    FIRST_LINE=$(head -1 SKILL.md)
-    if [ "$FIRST_LINE" = "---" ]; then
-        # 检查是否有 name 和 description (macOS compatible)
-        HAS_NAME=$(head -10 SKILL.md | grep -c '^name:' || true)
-        HAS_DESC=$(head -10 SKILL.md | grep -c '^description:' || true)
-        if [ "$HAS_NAME" -gt 0 ] && [ "$HAS_DESC" -gt 0 ]; then
-            ok "SKILL.md frontmatter: name + description present"
-        else
-            fail "SKILL.md frontmatter: missing name or description"
-        fi
-    else
-        fail "SKILL.md: no frontmatter (first line is not ---)"
-    fi
+if bash scripts/check_session.sh "$ROOT" > /dev/null 2>&1; then
+    ok "session contract"
 else
-    fail "SKILL.md missing"
+    fail "session contract failed"
 fi
 
-# --- 6. Git status ---
+# --- 6. Gates ---
 echo ""
-echo "[6/6] Git status"
+echo "[6/8] Gates"
+
+if bash scripts/check_gates.sh "$ROOT" > /dev/null 2>&1; then
+    ok "gate contract"
+else
+    fail "gate contract failed"
+fi
+
+# --- 7. Output protocol ---
+echo ""
+echo "[7/8] Output protocol"
+
+if bash scripts/check_output_protocol.sh "$ROOT" > /dev/null 2>&1; then
+    ok "output protocol"
+else
+    fail "output protocol failed"
+fi
+
+# --- 8. Git status ---
+echo ""
+echo "[8/8] Git status"
 
 if git rev-parse --git-dir > /dev/null 2>&1; then
     DIRTY=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
