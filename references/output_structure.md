@@ -65,6 +65,10 @@
 │   ├── eye.svg
 │   ├── eye-off.svg
 │   └── ...（其他图标）
+├── visuals/                # SVG视觉资产（插画/背景/空状态/hero装饰，按需）
+│   ├── empty-state.svg
+│   ├── hero-visual.svg
+│   └── background-pattern.svg
 ├── screenshots/            # 截图/效果图
 │   ├── preview.png
 │   └── components.png
@@ -98,6 +102,7 @@
 │   ├── profile.html        # 个人中心
 │   └── ...（其他页面）
 ├── icons/                  # SVG图标
+├── visuals/                # SVG视觉资产（插画/背景/空状态/hero装饰，按需）
 ├── routing.json            # 页面路由表
 ├── screenshots/            # 截图/效果图
 ├── responsive/             # 响应式版本
@@ -224,6 +229,26 @@
 
 **无论HTML中使用哪种方式，图标文件都必须单独导出到 `design-output/icons/` 目录。**
 
+## SVG视觉资产规则
+
+当图片生成失败、外部图片不可用、交付环境只允许 SVG，或用户明确要求纯 SVG 时，启动 [SVG Visual Fallback](svg_visual_fallback.md)。
+
+### 目录分工
+
+| 目录 | 内容 | 要求 |
+|------|------|------|
+| `icons/` | 功能图标、导航图标、状态符号 | 轻量、可复用、建议 `currentColor` |
+| `visuals/` | 插画、背景、空状态、hero 视觉、数据装饰 | 可使用渐变、滤镜、遮罩、复杂路径 |
+
+### 导出要求
+
+1. **不能混用目录** - 装饰插画不能放进 `icons/`，功能图标不能混入 `visuals/`
+2. **必须有 viewBox** - 所有独立 SVG 资产必须包含 `viewBox`
+3. **必须可访问** - 用户可见的 SVG 资产建议包含 `<title>` 或 `<desc>`
+4. **必须可维护** - 复杂 SVG 使用 `<defs>`、分层命名和复用结构
+5. **必须说明降级原因** - 进入 SVG fallback 后，`DESIGN-GUIDE.md` 必须包含 SVG Visual Fallback 说明
+6. **禁止伪造真实图片** - 真实人物、地点、商品图不可用时，只能改为抽象视觉或信息化表达
+
 ## 用户输出格式
 
 **设计完成后，向用户输出：**
@@ -239,6 +264,7 @@
 - design-output/index.html — 主页面
 - design-output/style.css — 样式文件
 - design-output/icons/ — SVG图标（所有图标）
+- design-output/visuals/ — SVG视觉资产（如启用SVG降级或使用插画/背景）
 - design-output/screenshots/ — 效果图
 - design-output/DESIGN-GUIDE.md — 设计规范
 
@@ -280,6 +306,10 @@
 ### icons/
 
 图标目录，包含所有用到的SVG格式图标文件。**必须导出所有图标，不能遗漏。**
+
+### visuals/
+
+SVG视觉资产目录，包含插画、背景、空状态、hero 视觉、数据装饰等非功能图标资产。只有任务使用这些资产或进入 SVG fallback 时必需。
 
 ### screenshots/
 

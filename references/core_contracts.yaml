@@ -1,4 +1,4 @@
-version: v0.2.0
+version: v0.2.1
 
 global_constitution:
   principles:
@@ -47,6 +47,8 @@ gates:
     blocks_when: 新发现与已确认 brief 冲突但未回退
   - name: visual_gate
     blocks_when: 视觉审查未通过却进入交付
+  - name: media_asset_fallback
+    blocks_when: 图片不可用却未启动 SVG Visual Fallback，或用廉价占位/伪真实 SVG 替代核心视觉
   - name: verification_truth
     blocks_when: 未验证却宣称完成
   - name: mode_exit
@@ -66,14 +68,17 @@ role_contracts:
       - 仅基于已确认 brief 展开页面与组件设计
       - 在当前工作单元内追问设计分歧
       - 发现超范围或冲突时返回上游
+      - 图片不可用时按 SVG Visual Fallback 生成受控视觉替代方案
     forbids:
       - 擅自扩展页面范围
       - 未闭环就输出可视为完成的方案或代码
+      - 用 SVG 伪造真实图片或用廉价占位替代核心视觉
   visual_reviewer:
     allows:
       - 独立评分
       - 阻塞不达标方案
       - 标注必须修改项
+      - 对 SVG Visual Fallback 做附加资产质量审查
     forbids:
       - 代替 UI设计师做新设计
       - 未验证修改项就放行

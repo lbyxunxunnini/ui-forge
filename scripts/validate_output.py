@@ -13,6 +13,8 @@ validate_output.py — 检查 design-output/ 交付物完整性。
     - DESIGN-GUIDE.md 存在
     - REQUIREMENTS.md 存在
     - HTML 中每个 <svg> 都有对应 .svg 导出文件
+    - visuals/ 中的 SVG 视觉资产包含 viewBox，建议包含 title/desc
+    - SVG fallback 模式下避免外链非 SVG 图片
     - HTML 包含响应式断点
     - HTML 包含输入验证状态 CSS
 
@@ -128,6 +130,101 @@ def check_html_svg_export(directory: Path) -> list[Issue]:
                         f"no matching SVG in icons/ (exported: {', '.join(sorted(exported_icons)[:5])}{'...' if len(exported_icons) > 5 else ''})",
                         "warning"
                     ))
+
+    return issues
+
+
+def uses_svg_fallback(directory: Path) -> bool:
+    """检查交付物是否声明使用 SVG Visual Fallback。"""
+    guide_path = directory / "DESIGN-GUIDE.md"
+    if not guide_path.exists():
+        return False
+
+    try:
+        content = guide_path.read_text(encoding="utf-8")
+    except (UnicodeDecodeError, OSError):
+        return False
+
+    return "SVG Visual Fallback" in content or "SVG视觉" in content or "纯 SVG" in content
+
+
+def check_visuals(directory: Path) -> list[Issue]:
+    """检查 SVG 视觉资产目录。"""
+    issues = []
+    visuals_dir = directory / "visuals"
+    fallback_active = uses_svg_fallback(directory)
+
+    if not visuals_dir.exists():
+        if fallback_active:
+            issues.append(Issue("visuals/", "SVG fallback declared but visuals/ directory missing", "warning"))
+        return issues
+
+    svg_files = list(visuals_dir.glob("*.svg"))
+    if len(svg_files) == 0:
+        issues.append(Issue("visuals/", "directory exists but no SVG visual assets found", "warning"))
+        return issues
+
+    for svg_file in svg_files:
+        try:
+            content = svg_file.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            issues.append(Issue(f"visuals/{svg_file.name}", "cannot read SVG file", "error"))
+            continue
+
+        if "<svg" not in content:
+            issues.append(Issue(f"visuals/{svg_file.name}", "missing <svg> root", "error"))
+        if "viewBox" not in content:
+            issues.append(Issue(f"visuals/{svg_file.name}", "missing viewBox", "error"))
+        if "<title" not in content and "<desc" not in content:
+            issues.append(Issue(f"visuals/{svg_file.name}", "missing <title> or <desc> for accessibility", "warning"))
+
+    return issues
+
+
+def check_svg_fallback_external_images(directory: Path) -> list[Issue]:
+    """SVG fallback 模式下检查外链非 SVG 图片风险。"""
+    issues = []
+    if not uses_svg_fallback(directory):
+        return issues
+
+    html_files = list(directory.glob("*.html"))
+    pages_dir = directory / "pages"
+    if pages_dir.exists():
+        html_files.extend(pages_dir.glob("*.html"))
+
+    image_pattern = re.compile(r'<img[^>]+src="([^"]+)"', re.IGNORECASE)
+    css_url_pattern = re.compile(r"url\(['\"]?([^'\"\)]+)['\"]?\)", re.IGNORECASE)
+
+    for html_file in html_files:
+        try:
+            content = html_file.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            continue
+
+        for match in image_pattern.finditer(content):
+            src = match.group(1)
+            if not (src.endswith(".svg") or src.startswith("data:image/svg+xml")):
+                issues.append(Issue(html_file.name, f"SVG fallback declared but non-SVG <img> used: {src}", "warning"))
+
+        for match in css_url_pattern.finditer(content):
+            src = match.group(1)
+            if src.startswith("data:"):
+                continue
+            if re.search(r"\.(png|jpe?g|webp|gif|avif)(\?|#|$)", src, re.IGNORECASE):
+                issues.append(Issue(html_file.name, f"SVG fallback declared but bitmap url() used: {src}", "warning"))
+
+    style_css = directory / "style.css"
+    if style_css.exists():
+        try:
+            css_content = style_css.read_text(encoding="utf-8")
+            for match in css_url_pattern.finditer(css_content):
+                src = match.group(1)
+                if src.startswith("data:"):
+                    continue
+                if re.search(r"\.(png|jpe?g|webp|gif|avif)(\?|#|$)", src, re.IGNORECASE):
+                    issues.append(Issue("style.css", f"SVG fallback declared but bitmap url() used: {src}", "warning"))
+        except (UnicodeDecodeError, OSError):
+            pass
 
     return issues
 
@@ -258,6 +355,8 @@ def validate_output(directory: Path, strict: bool = False) -> list[Issue]:
 
     # 内容质量
     issues.extend(check_html_svg_export(directory))
+    issues.extend(check_visuals(directory))
+    issues.extend(check_svg_fallback_external_images(directory))
     issues.extend(check_responsive(directory))
     issues.extend(check_validation_states(directory))
 

@@ -9,3 +9,5 @@ grep -q 'REQUIREMENTS.md' SKILL.md
 grep -q 'DESIGN-GUIDE.md' SKILL.md
 grep -q 'routing.json' SKILL.md
 grep -q 'consistency-report.md' SKILL.md
+grep -q 'SVG Visual Fallback' SKILL.md
+grep -q 'visuals/' references/output_structure.md

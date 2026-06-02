@@ -99,6 +99,16 @@ UI 设计 controller。和 `polanyi-design` 分层：`polanyi-design` 负责高�
 - 用户说"看起来像模板""感觉不对""太平""太挤"时，主动调用 polanyi 判断
 - 需求阶段不调用；有页面草案后调用做 gestalt 诊断；进入交付时把诊断结论翻译成 tokens 和布局约束
 
+### SVG 视觉降级路由
+
+当模型不能生成图、图片工具不可用、外部图片不可用、图片生成被拒绝，或用户明确要求纯 SVG 时，启动 [SVG Visual Fallback](references/svg_visual_fallback.md)。
+
+- 这是媒体资产降级，不是视觉质量评分降级；两者必须分开记录
+- 降级后不能输出普通灰色占位图，必须使用 SVG 原生渐变、滤镜、遮罩、路径与复用能力形成高质感视觉资产
+- 真实人物、真实地点、真实商品图不可用时，禁止用 SVG 伪造真实图片，只能改为抽象视觉、信息卡、数据图形或品牌化装饰层
+- 装饰插画、背景、空状态、hero 视觉放入 `design-output/visuals/`；功能图标仍放入 `design-output/icons/`
+- 进入 SVG fallback 后，`DESIGN-GUIDE.md` 必须说明触发原因、替代策略、使用资产、性能控制和不替代的真实图片范围
+
 ## 核心流程
 
 ### 标准流程（新页面/功能设计）
@@ -265,6 +275,7 @@ digraph ui_forge_standard {
 18. **组件库硬门禁：** 第 3 个页面交付前，必须完成组件库抽取并通过一致性校验。缺少组件库或一致性报告，交付工程师禁止输出。
 19. **方案决策闭合：** 用户选择方案后，UI 设计师必须回显方案要点并请求最终确认，确认后锁定为需求基线。后续修改视为新需求，不得在当前流程内静默变更。
 20. **禁止偷懒：** 执行前有工具先用（搜索、查文档、读文件、试生成），试完不行再说做不到，不试就放弃或不试就问用户是死罪。输出时必须带具体工作内容（评分逐项列出、缺失逐项列出、修改逐项列出），禁止"处理完了""差不多了"式糊弄。
+21. **媒体资产降级：** 图片生成或外部图片不可用时，必须切换到 SVG Visual Fallback；禁止把生成失败说成无法设计，也禁止用廉价占位替代核心视觉。
 
 ### 项目级设计规则（3+页面时自动激活）
 
@@ -427,6 +438,7 @@ P1 规则和角色输出标注详见 [skill_visibility.md](references/skill_visi
 - 需求确认闸门：[requirement_confirmation.md](references/shared_workflow_gates/requirement_confirmation.md)
 - 角色放行矩阵：[role_gate_matrix.md](references/shared_workflow_gates/role_gate_matrix.md)
 - 视觉质量门禁：[visual_quality_gate.md](references/shared_workflow_gates/visual_quality_gate.md)
+- SVG 视觉降级：[svg_visual_fallback.md](references/svg_visual_fallback.md)
 
 ## 设计规范
 

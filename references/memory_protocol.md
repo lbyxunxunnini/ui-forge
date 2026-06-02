@@ -31,6 +31,7 @@
 - HTML/CSS 文件
 - 设计Token文件
 - SVG图标（所有用到的图标都要导出）
+- SVG视觉资产（插画、背景、空状态、hero视觉，按需导出到 visuals/）
 - 截图/效果图
 - 响应式版本
 - 设计规范文档
@@ -40,6 +41,12 @@
 - 存放在 `design-output/icons/` 目录
 - 命名规范：英文小写+连字符（如 `phone.svg`、`wechat.svg`）
 - 无论HTML中使用内嵌SVG还是图片引用，都要单独导出文件
+
+**SVG视觉资产规则：**
+- 非功能图标类 SVG 放在 `design-output/visuals/`
+- 包括插画、背景、空状态、hero视觉、数据装饰
+- 图片生成失败或纯 SVG 模式下，必须记录 SVG fallback 触发原因和替代策略
+- `icons/` 与 `visuals/` 不得混用
 
 ## 向用户展示规则
 
@@ -129,6 +136,7 @@
 ├── style.css                    # 样式文件
 ├── tokens.json                  # 设计Token
 ├── icons/                       # SVG图标
+├── visuals/                     # SVG视觉资产（按需）
 ├── screenshots/                 # 截图/效果图
 ├── responsive/                  # 响应式版本
 └── DESIGN-GUIDE.md              # 设计规范文档

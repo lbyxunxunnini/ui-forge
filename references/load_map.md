@@ -23,6 +23,11 @@
   - `references/shared_workflow_gates/role_gate_matrix.md`
   - `references/shared_workflow_gates/visual_quality_gate.md`
 
+- 图片不可用 / 纯 SVG 视觉资产：
+  - `references/svg_visual_fallback.md`
+  - `references/output_structure.md`
+  - `references/roles/ui_designer.md`
+
 - 自动模式 / 是否允许补齐：
   - `references/autonomous_mode.md`
   - `references/input_incomplete_handling.md`

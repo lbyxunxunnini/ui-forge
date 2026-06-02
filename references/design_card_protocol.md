@@ -84,6 +84,13 @@ interaction_rules:
   success: "toast (2s)"
   disabled: "opacity 0.5, cursor not-allowed"
 
+media_assets:
+  preferred_mode: generated_image | external_image | svg_fallback | pure_svg
+  fallback_style: glass | editorial | data | geometric | neumorphic | neon
+  allow_abstract_replacement: true
+  forbid_fake_realism: true
+  visuals_dir: "design-output/visuals"
+
 accessibility:
   min_contrast_ratio: 4.5
   min_touch_target: "44px"
@@ -117,6 +124,7 @@ When a design card exists:
 - **Spacing**: must use card-defined spacing system
 - **Components**: must reference card-defined component rules
 - **Interaction states**: must cover card-defined interaction patterns
+- **Media assets**: when image generation fails or pure SVG is required, must follow card-defined fallback style and fake-realism restrictions
 
 If a design decision conflicts with the card, flag it:
 

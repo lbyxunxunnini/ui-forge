@@ -105,6 +105,7 @@ REF_FILES=(
     "references/output_structure.md"
     "references/design_tokens.md"
     "references/design_styles.md"
+    "references/svg_visual_fallback.md"
     "references/skill_visibility.md"
     "references/roles/requirement_analyst.md"
     "references/roles/ui_designer.md"

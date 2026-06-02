@@ -1,6 +1,6 @@
 # UI Forge
 
-GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.2.0`
+GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.2.1`
 
 UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路由到诊断、设计、交付模式，管理提问预算，强制输出完整性，产出结构化的 HTML/CSS/SVG 交付物。
 
@@ -23,6 +23,7 @@ UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路
 - 用提问预算（L1-L4）替代默认的长流程需求访谈
 - 分离需求分析师和 UI 设计师角色，带明确的确认门禁
 - 管理项目级设计规则卡（design card），维护长期 UI 规则
+- 图片生成不可用时切换到高质感 SVG Visual Fallback
 - 产出结构化输出，带完整性校验
 - 任务完成自动退出（不常驻模式）
 
@@ -43,6 +44,7 @@ UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路
 - [references/evaluation_rubric.md](references/evaluation_rubric.md)
 - [references/recipes.md](references/recipes.md)
 - [references/design_card_protocol.md](references/design_card_protocol.md)
+- [references/svg_visual_fallback.md](references/svg_visual_fallback.md)
 - [references/fast_mode.md](references/fast_mode.md)
 - [references/autonomous_mode.md](references/autonomous_mode.md)
 - [references/iteration_mode.md](references/iteration_mode.md)
@@ -121,7 +123,9 @@ git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
 
 ## 版本
 
-当前版本：`v0.2.0`
+当前版本：`v0.2.1`
+
+`v0.2.1` SVG Visual Fallback 资产降级体系：新增图片生成失败、外部图片不可用或纯 SVG 约束下的高质感 SVG 替代策略；新增 `design-output/visuals/` 目录规范，区分功能图标和插画/背景/空状态/hero 视觉；UI设计师、视觉审查师、role gate 和 design card 同步增加媒体资产降级规则；输出校验脚本增加 SVG 视觉资产结构检查和 fallback 模式外链 bitmap 风险提示。
 
 `v0.2.0` task-driver 风格强门禁闭环 + 维护面收敛：新增全局宪法式铁律、Design Task Brief、失控回退和正常结束条件；新增 core_contracts/maintenance_map/load_map 维护主表；三张角色卡、gate matrix、skill visibility 统一为硬合同风格；自动模式收紧为仅允许低风险视觉默认值；发布校验拆分为 metadata / guardrails / session / gates / output protocol 模块；同步清理旧触发词口径与路由测试。
 

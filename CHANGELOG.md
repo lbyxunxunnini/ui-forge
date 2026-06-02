@@ -1,5 +1,28 @@
 # Changelog
 
+## [v0.2.1] - 2026-06-02
+
+SVG Visual Fallback 资产降级体系。
+
+### Added
+
+- `references/svg_visual_fallback.md` — 新增图片生成失败、外部图片不可用或纯 SVG 约束下的高质感 SVG 视觉替代策略
+- `design-output/visuals/` — 新增 SVG 视觉资产目录规范，用于插画、背景、空状态、hero 视觉和数据装饰
+- `references/design_card_protocol.md` — 新增 `media_assets` 规则，记录首选媒体模式、fallback 风格和禁止伪真实图片约束
+
+### Changed
+
+- `SKILL.md` — 新增 SVG 视觉降级路由，明确媒体资产降级与视觉评分降级分离
+- `references/roles/ui_designer.md` — UI设计师新增 SVG Visual Fallback 设计纪律和媒体资产策略输出项
+- `references/roles/visual_reviewer.md` — 视觉审查师新增 SVG fallback 附加门禁，伪造真实图片一票否决
+- `references/output_structure.md` / `references/memory_protocol.md` — 区分 `icons/` 与 `visuals/`，补充 SVG 视觉资产导出规则
+- `references/core_contracts.yaml` / `references/shared_workflow_gates/role_gate_matrix.md` — 新增媒体资产降级 gate 与角色边界
+- `README.md` / `references/load_map.md` / `scripts/doctor.sh` / `scripts/check_output_protocol.sh` — 同步新增文档入口与发布检查
+
+### Fixed
+
+- `scripts/validate_output.py` — 增强输出校验：检查 `visuals/*.svg` 的 `viewBox`、可访问性说明，并在 SVG fallback 模式下提示外链 bitmap 风险
+
 ## [v0.2.0] - 2026-05-25
 
 Task-driver 风格硬合同化 + 维护面收敛。
