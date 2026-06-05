@@ -1,6 +1,6 @@
 # UI Forge
 
-GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.2.1`
+GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.2.2`
 
 UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路由到诊断、设计、交付模式，管理提问预算，强制输出完整性，产出结构化的 HTML/CSS/SVG 交付物。
 
@@ -23,6 +23,7 @@ UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路
 - 用提问预算（L1-L4）替代默认的长流程需求访谈
 - 分离需求分析师和 UI 设计师角色，带明确的确认门禁
 - 管理项目级设计规则卡（design card），维护长期 UI 规则
+- 强制首屏视觉层级、焦点链路和 iPhone 15 安全区域门禁
 - 图片生成不可用时切换到高质感 SVG Visual Fallback
 - 产出结构化输出，带完整性校验
 - 任务完成自动退出（不常驻模式）
@@ -123,7 +124,9 @@ git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
 
 ## 版本
 
-当前版本：`v0.2.1`
+当前版本：`v0.2.2`
+
+`v0.2.2` 视觉层级与 iPhone 15 安全区域硬门禁：新增首屏主焦点、`focus_chain`、缩略/眯眼测试和组件同质化阻塞规则；新增 `device_frame_rules`，App/iOS 输出默认锁定 iPhone 15 393×852 画布、真机外壳、灵动岛、状态栏和 Home Indicator；UI设计师、视觉审查师、role gate、design card、输出结构和校验脚本同步增加层级与设备安全区审查。
 
 `v0.2.1` SVG Visual Fallback 资产降级体系：新增图片生成失败、外部图片不可用或纯 SVG 约束下的高质感 SVG 替代策略；新增 `design-output/visuals/` 目录规范，区分功能图标和插画/背景/空状态/hero 视觉；UI设计师、视觉审查师、role gate 和 design card 同步增加媒体资产降级规则；输出校验脚本增加 SVG 视觉资产结构检查和 fallback 模式外链 bitmap 风险提示。
 

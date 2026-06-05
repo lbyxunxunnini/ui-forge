@@ -61,6 +61,33 @@ layout_rules:
   max_width: "1280px"
   信息层级: "标题 > 副标题 > 正文 > 辅助文字"
 
+device_frame_rules:
+  target_device: "iPhone 15"
+  viewport_width: 393
+  viewport_height: 852
+  page_width: "393px"
+  page_height: "852px"
+  page_overflow_y: "auto"
+  status_bar_height: "59px"
+  dynamic_island_size: "126px x 37px"
+  nav_top: "59px"
+  nav_height: "44px"
+  content_top_with_nav: "103px"
+  login_top_padding: "59px"
+  tab_bar_height: "83px"
+  bottom_action_bar_height: "95px"
+  bottom_safe_padding: "34px"
+  home_indicator_required: true
+  gallery_frame_required: true
+  required_gallery_classes: ["iphone-frame", "iphone-screen", "dynamic-island", "status-bar", "home-indicator"]
+
+hierarchy_rules:
+  primary_focal_rule: "每个首屏只能有一个主焦点"
+  focus_chain_required: true
+  squint_test: "页面缩到 25% 后仍能看出主焦点、主内容、主 CTA 的优先级"
+  primary_cta_weight: "主 CTA 必须比次级操作更强，不能与普通标签或装饰色同权重"
+  component_differentiation: "不同内容类型的卡片必须有不同扫读结构"
+
 component_rules:
   button:
     height: "44px"
@@ -122,6 +149,8 @@ When a design card exists:
 - **Colors**: must use card-defined palette; no ad-hoc colors
 - **Typography**: must use card-defined scale; no ad-hoc font sizes
 - **Spacing**: must use card-defined spacing system
+- **Device frame**: app outputs must use the card-defined iPhone 15 viewport, safe areas, real-device shell, Dynamic Island, status bar, and Home Indicator
+- **Hierarchy**: must declare and preserve the card-defined `focus_chain`; every first viewport needs one primary focal point
 - **Components**: must reference card-defined component rules
 - **Interaction states**: must cover card-defined interaction patterns
 - **Media assets**: when image generation fails or pure SVG is required, must follow card-defined fallback style and fake-realism restrictions

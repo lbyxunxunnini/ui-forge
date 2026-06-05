@@ -15,6 +15,7 @@ validate_output.py — 检查 design-output/ 交付物完整性。
     - HTML 中每个 <svg> 都有对应 .svg 导出文件
     - visuals/ 中的 SVG 视觉资产包含 viewBox，建议包含 title/desc
     - SVG fallback 模式下避免外链非 SVG 图片
+    - App/iOS 画廊包含 iPhone 15 真机外壳、安全区和系统区域类名
     - HTML 包含响应式断点
     - HTML 包含输入验证状态 CSS
 
@@ -311,6 +312,50 @@ def check_validation_states(directory: Path) -> list[Issue]:
     return issues
 
 
+def check_device_frame(directory: Path) -> list[Issue]:
+    """检查 App/iOS 画廊是否包含 iPhone 15 外壳和安全区结构。"""
+    issues = []
+    index_path = directory / "index.html"
+    style_path = directory / "style.css"
+
+    if not index_path.exists():
+        return issues
+
+    try:
+        index_content = index_path.read_text(encoding="utf-8")
+    except (UnicodeDecodeError, OSError):
+        issues.append(Issue("index.html", "cannot read file for device frame validation", "warning"))
+        return issues
+
+    css_content = ""
+    if style_path.exists():
+        try:
+            css_content = style_path.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            pass
+
+    combined = f"{index_content}\n{css_content}"
+    required_classes = ["iphone-frame", "iphone-screen", "dynamic-island", "status-bar", "home-indicator"]
+    for class_name in required_classes:
+        if class_name not in combined:
+            issues.append(Issue("index.html", f"missing iPhone gallery class: .{class_name}", "warning"))
+
+    required_values = {
+        "393px": "iPhone 15 screen width",
+        "852px": "iPhone 15 screen height",
+        "59px": "top safe/status area",
+        "34px": "bottom safe area",
+    }
+    for value, meaning in required_values.items():
+        if value not in combined:
+            issues.append(Issue("style.css", f"missing {meaning} value ({value})", "warning"))
+
+    if "overflow-y" not in combined or "auto" not in combined:
+        issues.append(Issue("style.css", "missing scrollable page rule: overflow-y: auto", "warning"))
+
+    return issues
+
+
 def check_requirements(directory: Path) -> list[Issue]:
     """检查 REQUIREMENTS.md 内容质量。"""
     issues = []
@@ -357,6 +402,7 @@ def validate_output(directory: Path, strict: bool = False) -> list[Issue]:
     issues.extend(check_html_svg_export(directory))
     issues.extend(check_visuals(directory))
     issues.extend(check_svg_fallback_external_images(directory))
+    issues.extend(check_device_frame(directory))
     issues.extend(check_responsive(directory))
     issues.extend(check_validation_states(directory))
 

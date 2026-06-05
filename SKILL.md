@@ -307,9 +307,13 @@ digraph ui_forge_standard {
 
 详见 [ui_designer.md](references/roles/ui_designer.md)（设计要求）和 [visual_reviewer.md](references/roles/visual_reviewer.md)（评分标准）。
 
+视觉层级是硬门禁：UI设计师必须声明首屏主焦点和 `focus_chain`；视觉审查师必须执行缩略/眯眼测试。若页面缩到 25% 后看不出主焦点、主内容、主 CTA 的优先级，`信息层次` 最高 2 分，不能直接放行。
+
 ### 交付物展示规范（输出时必须遵循）
 
 index.html 是设计画廊页面——所有页面以手机外框 mockup 形式平铺展示，同一模块横向排列，不同模块上下排列，整个网页可滚动。待实现页面也有占位 mockup。每个 mockup 下方标注页面名称和文件路径。
+
+App/iOS 输出默认使用 iPhone 15 画布：页面容器 393×852，`overflow-y: auto`；index 画廊必须包含真机外壳、灵动岛、状态栏和 Home Indicator；内容不得与顶部/底部系统安全区域重叠。
 
 展示布局和文件结构详见 [output_structure.md](references/output_structure.md)。
 

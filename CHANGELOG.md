@@ -1,5 +1,25 @@
 # Changelog
 
+## [v0.2.2] - 2026-06-05
+
+视觉层级与 iPhone 15 安全区域硬门禁。
+
+### Added
+
+- `references/design_card_protocol.md` — 新增 `hierarchy_rules` 和 `device_frame_rules`，锁定首屏主焦点、焦点链路、缩略/眯眼测试、iPhone 15 393×852 画布、真机外壳和安全区域规格
+- `tests/test-cases.md` — 新增视觉层级硬门禁和 iPhone 15 画布/安全区回归用例
+- `scripts/validate_output.py` — 新增 App/iOS 画廊真机外壳、安全区类名、393×852 画布和滚动规则检查
+
+### Changed
+
+- `SKILL.md` / `references/output_structure.md` — 明确 App/iOS 输出默认使用 iPhone 15 画布、灵动岛、状态栏、Home Indicator 和安全区规则
+- `references/roles/ui_designer.md` — UI设计师必须声明主焦点、`focus_chain`、设备与安全区，且不得让内容与系统区域重叠
+- `references/roles/visual_reviewer.md` — 视觉审查师必须执行缩略/眯眼测试和设备安全区审查
+- `references/shared_workflow_gates/visual_quality_gate.md` / `role_gate_matrix.md` / `references/core_contracts.yaml` — 新增视觉层级和设备安全区阻塞门禁
+- `references/evaluation_rubric.md` — 结构判断升级为必须包含唯一主焦点和 `focus_chain`
+- `scripts/init_design_card.py` / `scripts/validate_design_card.py` — 自动生成并校验层级规则与设备画布规则
+- `scripts/check_gates.sh` / `scripts/check_output_protocol.sh` — 发布检查同步覆盖新增门禁和输出协议
+
 ## [v0.2.1] - 2026-06-02
 
 SVG Visual Fallback 资产降级体系。

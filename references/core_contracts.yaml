@@ -47,6 +47,10 @@ gates:
     blocks_when: 新发现与已确认 brief 冲突但未回退
   - name: visual_gate
     blocks_when: 视觉审查未通过却进入交付
+  - name: visual_hierarchy
+    blocks_when: 首屏没有唯一主焦点、focus_chain 缺失，或缩略/眯眼测试下无法判断页面重点
+  - name: device_safe_area
+    blocks_when: App/iOS 页面未锁定 iPhone 15 画布，或内容与状态栏、灵动岛、底部栏、Home Indicator 重叠
   - name: media_asset_fallback
     blocks_when: 图片不可用却未启动 SVG Visual Fallback，或用廉价占位/伪真实 SVG 替代核心视觉
   - name: verification_truth
@@ -66,6 +70,8 @@ role_contracts:
   ui_designer:
     allows:
       - 仅基于已确认 brief 展开页面与组件设计
+      - 声明每个首屏的主焦点和 focus_chain
+      - 遵守 App/iOS 设备画布和安全区域规则
       - 在当前工作单元内追问设计分歧
       - 发现超范围或冲突时返回上游
       - 图片不可用时按 SVG Visual Fallback 生成受控视觉替代方案
@@ -78,6 +84,8 @@ role_contracts:
       - 独立评分
       - 阻塞不达标方案
       - 标注必须修改项
+      - 执行缩略/眯眼测试，阻塞首屏焦点不清的方案
+      - 阻塞设备画布或安全区域不合格的 App/iOS 方案
       - 对 SVG Visual Fallback 做附加资产质量审查
     forbids:
       - 代替 UI设计师做新设计
