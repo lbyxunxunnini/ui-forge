@@ -16,6 +16,7 @@ validate_output.py — 检查 design-output/ 交付物完整性。
     - visuals/ 中的 SVG 视觉资产包含 viewBox，建议包含 title/desc
     - SVG fallback 模式下避免外链非 SVG 图片
     - App/iOS 画廊包含 iPhone 15 真机外壳、安全区和系统区域类名
+    - App/iOS 顶部导航、Tab 栏、底部操作栏是真正 fixed chrome
     - HTML 包含响应式断点
     - HTML 包含输入验证状态 CSS
 
@@ -312,6 +313,174 @@ def check_validation_states(directory: Path) -> list[Issue]:
     return issues
 
 
+def _extract_css_block(css: str, selector: str) -> str:
+    escaped = re.escape(selector)
+    match = re.search(rf"{escaped}\s*\{{([^}}]+)\}}", css, re.IGNORECASE | re.DOTALL)
+    return match.group(1) if match else ""
+
+
+def _css_variables(css: str) -> dict[str, str]:
+    return {
+        match.group(1): match.group(2).strip()
+        for match in re.finditer(r"--([a-z0-9_-]+)\s*:\s*([^;]+);", css, re.IGNORECASE)
+    }
+
+
+def _resolve_css_value(value: str, variables: dict[str, str]) -> str:
+    var_match = re.fullmatch(r"var\(\s*--([a-z0-9_-]+)\s*\)", value.strip(), re.IGNORECASE)
+    if not var_match:
+        return value.strip()
+    return variables.get(var_match.group(1), value).strip()
+
+
+def _css_prop_value(block: str, prop: str, variables: dict[str, str]) -> str | None:
+    match = re.search(rf"{re.escape(prop)}\s*:\s*([^;]+);?", block, re.IGNORECASE)
+    if not match:
+        return None
+    return _resolve_css_value(match.group(1), variables)
+
+
+def _css_px_value(block: str, prop: str, variables: dict[str, str]) -> float | None:
+    value = _css_prop_value(block, prop, variables)
+    if value is None:
+        return None
+    match = re.fullmatch(r"([0-9.]+)px", value, re.IGNORECASE)
+    return float(match.group(1)) if match else None
+
+
+def _css_scale_value(block: str, variables: dict[str, str]) -> float:
+    match = re.search(r"scale\(\s*(var\(\s*--[a-z0-9_-]+\s*\)|[0-9.]+)\s*\)", block, re.IGNORECASE)
+    if not match:
+        return 1.0
+    value = _resolve_css_value(match.group(1), variables)
+    try:
+        return float(value)
+    except ValueError:
+        return 1.0
+
+
+def _first_css_block(css: str, selectors: list[str]) -> tuple[str, str]:
+    for selector in selectors:
+        block = _extract_css_block(css, selector)
+        if block:
+            return selector, block
+    return "", ""
+
+
+def _css_blocks(css: str) -> list[tuple[str, str]]:
+    blocks = []
+    for match in re.finditer(r"([^{}@]+)\{([^{}]+)\}", css, re.IGNORECASE | re.DOTALL):
+        selector = " ".join(match.group(1).strip().split())
+        block = match.group(2)
+        if selector:
+            blocks.append((selector, block))
+    return blocks
+
+
+def _all_delivery_css(directory: Path) -> str:
+    parts = []
+
+    for css_path in directory.glob("*.css"):
+        try:
+            parts.append(css_path.read_text(encoding="utf-8"))
+        except (UnicodeDecodeError, OSError):
+            pass
+
+    html_files = list(directory.glob("*.html"))
+    pages_dir = directory / "pages"
+    if pages_dir.exists():
+        html_files.extend(pages_dir.glob("*.html"))
+
+    for html_file in html_files:
+        try:
+            html = html_file.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            continue
+        parts.extend(re.findall(r"<style[^>]*>(.*?)</style>", html, re.DOTALL | re.IGNORECASE))
+
+    return "\n".join(parts)
+
+
+def check_fixed_chrome(directory: Path) -> list[Issue]:
+    """检查 App/iOS 固定顶部导航、Tab 栏、底部操作栏是否会随滚动失效。"""
+    issues = []
+    css = _all_delivery_css(directory)
+    if not css:
+        return issues
+
+    variables = _css_variables(css)
+    fixed_ancestor_selectors = {
+        "html",
+        "body",
+        ".phone-page",
+        ".app-container",
+        ".page",
+    }
+    containing_block_props = {
+        "transform": {"none"},
+        "filter": {"none"},
+        "perspective": {"none"},
+        "contain": {"none", "size", "style"},
+    }
+
+    for selector, block in _css_blocks(css):
+        selector_key = selector.lower()
+        selector_parts = {part.strip().lower() for part in selector.split(",")}
+
+        if selector_parts & fixed_ancestor_selectors:
+            for prop, allowed_values in containing_block_props.items():
+                value = _css_prop_value(block, prop, variables)
+                if value and value.lower() not in allowed_values:
+                    issues.append(Issue(
+                        "CSS",
+                        (
+                            f"{selector} sets {prop}: {value}; this can break position: fixed "
+                            "for top nav/tab/footer chrome"
+                        ),
+                        "warning",
+                    ))
+
+        position = (_css_prop_value(block, "position", variables) or "").lower()
+        is_top_chrome = any(token in selector_key for token in ["header", "nav-bar", "navbar", "top-bar", "app-bar"])
+        is_bottom_chrome = any(token in selector_key for token in ["tab-bar", "footer", "bottom-bar", "bottom-action"])
+        is_chrome = is_top_chrome or is_bottom_chrome
+
+        if is_top_chrome and position == "sticky":
+            issues.append(Issue(
+                "CSS",
+                f"{selector} uses position: sticky; App top navigation must use position: fixed",
+                "warning",
+            ))
+
+        if is_chrome and position == "fixed":
+            left = _css_prop_value(block, "left", variables)
+            transform = _css_prop_value(block, "transform", variables) or ""
+            width = _css_prop_value(block, "width", variables) or ""
+            max_width = _css_prop_value(block, "max-width", variables) or ""
+
+            if left != "50%" or "translateX(-50%)" not in transform:
+                issues.append(Issue(
+                    "CSS",
+                    f"{selector} is fixed but is not centered with left: 50% + translateX(-50%)",
+                    "warning",
+                ))
+            if not (width in {"var(--max-width)", "393px"} or max_width in {"100%", "var(--max-width)", "393px"}):
+                issues.append(Issue(
+                    "CSS",
+                    f"{selector} is fixed but does not lock width to the phone viewport",
+                    "warning",
+                ))
+
+        if is_top_chrome and position in {"fixed", "sticky"} and "justify-content: space-between" in block and "grid-template-columns" not in block:
+            issues.append(Issue(
+                "CSS",
+                f"{selector} uses space-between; centered titles need equal side columns or absolute centering",
+                "warning",
+            ))
+
+    return issues
+
+
 def check_device_frame(directory: Path) -> list[Issue]:
     """检查 App/iOS 画廊是否包含 iPhone 15 外壳和安全区结构。"""
     issues = []
@@ -352,6 +521,51 @@ def check_device_frame(directory: Path) -> list[Issue]:
 
     if "overflow-y" not in combined or "auto" not in combined:
         issues.append(Issue("style.css", "missing scrollable page rule: overflow-y: auto", "warning"))
+
+    variables = _css_variables(combined)
+    frame_selector, frame_block = _first_css_block(combined, [".iphone-frame", ".phone-frame"])
+    screen_selector, screen_block = _first_css_block(combined, [".iphone-screen", ".phone-screen"])
+    iframe_selector, iframe_block = _first_css_block(combined, [".iphone-screen iframe", ".phone-screen iframe"])
+
+    if frame_block and iframe_block:
+        frame_width = _css_px_value(frame_block, "width", variables)
+        frame_height = _css_px_value(frame_block, "height", variables)
+        frame_padding = _css_px_value(frame_block, "padding", variables) or 0
+        screen_width = _css_px_value(screen_block, "width", variables) if screen_block else None
+        screen_height = _css_px_value(screen_block, "height", variables) if screen_block else None
+        iframe_width = _css_px_value(iframe_block, "width", variables)
+        iframe_height = _css_px_value(iframe_block, "height", variables)
+        iframe_scale = _css_scale_value(iframe_block, variables)
+
+        if screen_width is None and frame_width is not None:
+            screen_width = frame_width - frame_padding * 2
+        if screen_height is None and frame_height is not None:
+            screen_height = frame_height - frame_padding * 2
+
+        if None not in (screen_width, screen_height, iframe_width, iframe_height):
+            scaled_width = iframe_width * iframe_scale
+            scaled_height = iframe_height * iframe_scale
+            overflow_x = scaled_width - screen_width
+            overflow_y = scaled_height - screen_height
+
+            if overflow_x > 0.5:
+                issues.append(Issue(
+                    "index.html",
+                    (
+                        f"gallery iframe is {overflow_x:.1f}px wider than {screen_selector or frame_selector} "
+                        f"after scale; right edge will be clipped"
+                    ),
+                    "warning",
+                ))
+            if overflow_y > 0.5:
+                issues.append(Issue(
+                    "index.html",
+                    (
+                        f"gallery iframe is {overflow_y:.1f}px taller than {screen_selector or frame_selector} "
+                        "after scale; bottom safe area/home indicator spacing will be clipped"
+                    ),
+                    "warning",
+                ))
 
     return issues
 
@@ -403,6 +617,7 @@ def validate_output(directory: Path, strict: bool = False) -> list[Issue]:
     issues.extend(check_visuals(directory))
     issues.extend(check_svg_fallback_external_images(directory))
     issues.extend(check_device_frame(directory))
+    issues.extend(check_fixed_chrome(directory))
     issues.extend(check_responsive(directory))
     issues.extend(check_validation_states(directory))
 

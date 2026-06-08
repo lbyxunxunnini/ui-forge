@@ -53,6 +53,8 @@ App/iOS 交付必须以 iPhone 15 为默认展示设备：
 - 顶部安全区按 59px 处理，有导航栏页面内容起点为 103px；登录等无导航页面顶部 padding 至少 59px
 - Tab 栏底部安全 padding 为 34px；底部操作栏高度为 95px，不能压住 Home Indicator
 - 任一页面内容与状态栏、灵动岛、底部栏或 Home Indicator 重叠时阻塞返回
+- 顶部导航栏、Tab 栏、底部操作栏必须是真正固定 chrome：滚动页面后 `top/bottom` 坐标不变；使用 `sticky` 或被祖先 `transform/filter/perspective/contain` 破坏 fixed 定位时阻塞返回
+- 顶部标题必须按手机画布中心对齐；左右按钮宽度不一致导致标题视觉偏移时阻塞返回
 
 ## 视觉层级硬门禁
 

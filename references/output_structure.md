@@ -37,6 +37,13 @@ App/iOS 输出默认锁定 iPhone 15：
 | 状态栏 | `.status-bar`，高度 59px，含信号/WiFi/电池 |
 | Home Indicator | `.home-indicator` |
 
+画廊缩放规则：
+
+- 推荐直接使用完整 `393×852` 页面画布；如果为了平铺画廊而缩小 mockup，必须使用统一比例变量。
+- 缩放 iframe 时，`.iphone-screen` 的可见宽高必须等于 `393px × scale` 和 `852px × scale`，外壳尺寸只在此基础上增加边框/padding。
+- 禁止用较小 `.iphone-screen` 加 `overflow: hidden` 裁剪一个更大的 iframe；这会导致每页右侧被切掉，并切掉底部 `34px` safe area。
+- 示例：`scale = 0.70` 时，屏幕可见区应为 `275.1×596.4px`；若外壳 padding 为 `12px`，外壳尺寸应为 `299.1×620.4px`。
+
 安全区域规则：
 
 | 区域 | 规格 |
@@ -50,6 +57,15 @@ App/iOS 输出默认锁定 iPhone 15：
 | 底部安全 padding | 34px |
 
 任一页面内容不得与状态栏、灵动岛、Tab 栏、底部操作栏或 Home Indicator 重叠。
+
+固定导航与底部栏规则：
+
+- App 页面顶部导航栏、Tab 栏、底部操作栏属于系统 chrome，必须 `position: fixed`，不能使用 `position: sticky` 代替。
+- 固定 chrome 必须锁定在手机画布内：`left: 50%; transform: translateX(-50%); width: var(--max-width); max-width: 100%`。
+- 有顶部导航栏的页面，内容区顶部必须预留 `calc(var(--safe-top) + 44px)` 或等价高度；不能让正文被 fixed 导航遮挡。
+- 有 Tab 栏或底部操作栏的页面，内容区底部必须预留 `calc(49px + var(--safe-bottom) + 20px)` 或等价高度；不能让最后一项被底部栏遮挡。
+- `html`、`body`、`.phone-page`、`.app-container` 等 fixed chrome 的祖先元素禁止设置 `transform`、`filter`、`perspective`、`contain: paint/layout/content/strict`，包括 `transform: translateX(0)`。这些属性会创建 containing block，导致 `position: fixed` 跟随滚动。
+- 顶部居中标题必须使用三栏等宽 grid 或绝对居中策略；不能用左右宽度不一致的 `space-between` 假居中。
 
 **展示布局：**
 ```

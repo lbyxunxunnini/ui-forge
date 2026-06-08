@@ -313,7 +313,7 @@ digraph ui_forge_standard {
 
 index.html 是设计画廊页面——所有页面以手机外框 mockup 形式平铺展示，同一模块横向排列，不同模块上下排列，整个网页可滚动。待实现页面也有占位 mockup。每个 mockup 下方标注页面名称和文件路径。
 
-App/iOS 输出默认使用 iPhone 15 画布：页面容器 393×852，`overflow-y: auto`；index 画廊必须包含真机外壳、灵动岛、状态栏和 Home Indicator；内容不得与顶部/底部系统安全区域重叠。
+App/iOS 输出默认使用 iPhone 15 画布：页面容器 393×852，`overflow-y: auto`；index 画廊必须包含真机外壳、灵动岛、状态栏和 Home Indicator；内容不得与顶部/底部系统安全区域重叠。顶部导航、Tab 栏、底部操作栏必须是真正 fixed chrome，滚动时坐标不变；fixed chrome 的祖先禁止设置 `transform/filter/perspective/contain`；居中标题必须用等宽三栏或绝对居中，不能用不等宽 `space-between` 假居中。
 
 展示布局和文件结构详见 [output_structure.md](references/output_structure.md)。
 

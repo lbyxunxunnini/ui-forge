@@ -1,5 +1,22 @@
 # Changelog
 
+## [v0.2.3] - 2026-06-08
+
+Fixed chrome 与画廊裁剪门禁。
+
+### Added
+
+- `references/output_structure.md` — 新增画廊缩放规则，要求 iframe 缩放后尺寸与屏幕可见区一致，禁止用 `overflow: hidden` 裁剪大 iframe
+- `references/output_structure.md` / `references/shared_workflow_gates/visual_quality_gate.md` — 新增 fixed chrome 硬门禁：顶部导航、Tab 栏、底部操作栏滚动时坐标必须保持不变
+- `scripts/validate_output.py` — 新增画廊 iframe 缩放溢出检查，直接报告右侧裁切和底部 safe area 裁切风险
+- `scripts/validate_output.py` — 新增 fixed chrome 检查，识别 `sticky` 顶栏、未锁定手机宽度的 fixed 栏、以及会破坏 fixed 定位的祖先 `transform/filter/perspective/contain`
+
+### Changed
+
+- `SKILL.md` — App/iOS 交付规范补充 fixed chrome、祖先 containing block 禁止项和标题居中硬约束
+- `references/output_structure.md` — 明确 fixed chrome 必须居中锁定在 `var(--max-width)` 手机画布内，并为顶部/底部栏预留内容空间
+- `references/core_contracts.yaml` / `.skillhub.json` / `VERSION` / `README.md` — 同步版本到 `v0.2.3`
+
 ## [v0.2.2] - 2026-06-05
 
 视觉层级与 iPhone 15 安全区域硬门禁。
