@@ -28,6 +28,11 @@
   - `references/output_structure.md`
   - `references/roles/ui_designer.md`
 
+- 视觉输入不可读 / 模型无视觉能力：
+  - `references/input_incomplete_handling.md`
+  - `references/shared_workflow_gates/visual_quality_gate.md`
+  - `references/roles/visual_reviewer.md`
+
 - 自动模式 / 是否允许补齐：
   - `references/autonomous_mode.md`
   - `references/input_incomplete_handling.md`

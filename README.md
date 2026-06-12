@@ -1,6 +1,6 @@
 # UI Forge
 
-GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.2.3`
+GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.2.4`
 
 UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路由到诊断、设计、交付模式，管理提问预算，强制输出完整性，产出结构化的 HTML/CSS/SVG 交付物。
 
@@ -124,7 +124,9 @@ git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
 
 ## 版本
 
-当前版本：`v0.2.3`
+当前版本：`v0.2.4`
+
+`v0.2.4` 新增视觉理解降级策略：当模型或环境无法读取截图、图片或画布时，切换到 Visual Understanding Fallback，禁止假装看过视觉细节；同步收窄视觉门禁与角色边界，确保可用文字、DOM/CSS 或 design card 证据时仍能继续，缺少替代证据时明确阻塞。
 
 `v0.2.3` Fixed chrome 与画廊裁剪门禁：补强 App/iOS 顶部导航、Tab 栏、底部操作栏的 fixed 定位规则，禁止 fixed chrome 祖先使用会破坏定位的 `transform/filter/perspective/contain`；新增三栏等宽/绝对居中的标题规则；新增 index 画廊 iframe 缩放尺寸校验，阻止右侧裁切和底部 safe area 被裁掉；输出校验脚本同步检查 fixed chrome、sticky 顶栏、画廊缩放溢出和手机画布锁定。
 

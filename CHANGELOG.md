@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.2.4] - 2026-06-12
+
+新增视觉理解降级策略。
+
+### Added
+
+- `SKILL.md` / `references/input_incomplete_handling.md` / `references/roles/ui_designer.md` / `references/roles/visual_reviewer.md` — 新增 Visual Understanding Fallback：模型或环境无法读取截图、图片或画布时，必须切换到基于文字、DOM/CSS、design card 的降级路径，禁止假装看过视觉细节
+- `references/shared_workflow_gates/visual_quality_gate.md` / `references/shared_workflow_gates/role_gate_matrix.md` / `references/load_map.md` — 同步新增视觉理解降级门禁与加载路径
+
+### Changed
+
+- `README.md` — 同步版本到 `v0.2.4`，并补充本次版本说明
+- `references/core_contracts.yaml` / `.skillhub.json` / `VERSION` — 同步版本到 `v0.2.4`
+
 ## [v0.2.3] - 2026-06-08
 
 Fixed chrome 与画廊裁剪门禁。

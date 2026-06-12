@@ -25,9 +25,24 @@
 | APM-BP-010 | P2 | fixed | 缺少 Red Flags 自我欺骗预判表。已添加 6 条 Red Flags |
 | APM-BP-011 | P3 | fixed | 流程图未使用 digraph 格式。标准流程已转为 digraph 含判断节点和分支 |
 
+## 2026-06-11 修复
+
+| Issue ID | 级别 | 状态 | 描述 |
+|----------|------|------|------|
+| APM-WORKFLOW-004 | P1 | fixed | 视觉审查通过后可能直接进入交付，绕过用户确认。已统一视觉门禁、视觉审查师和交付 Gate：评分通过只进入用户确认，用户确认后才可交付 |
+| APM-LOGIC-006 | P1 | fixed | 用户拒绝回答核心信息时可能被 autonomous 推荐方案自动补齐。已改为区分低风险默认值与核心字段，核心字段持续拒答时保持候选未确认，不得完整设计或交付 |
+| APM-OUTPUT-001 | P2 | fixed | 用户可见交付清单遗漏 tokens.json 与 REQUIREMENTS.md。已补齐必备文件，并补充 3+ 页面 routing.json / consistency-report.md 条件项 |
+| APM-LOGIC-004 | P2 | fixed | 迭代模式视觉审查缺少角色卡级操作定义。已在 visual_reviewer.md 增加迭代对比、变更点和回归检查输出字段 |
+| APM-LOGIC-005 | P2 | fixed | 设计系统锁定时机措辞不一致。已统一为第3个页面设计完成并经用户确认后锁定 tokens.json |
+| APM-DESIGN-006 | P2 | fixed | 角色输出规则在多处重复定义。已将运行时提示和 SKILL 主文件收敛为引用 skill_visibility.md 的简短硬约束 |
+| APM-DESIGN-007 | P2 | fixed | SKILL.md 行数监控。已将 SKILL.md 从 456 行降至 446 行，继续保持在 500 行阈值以内 |
+
+## 2026-06-11 产品评审改进
+
+| Issue ID | 级别 | 状态 | 描述 |
+|----------|------|------|------|
+| APM-GOV-001 | P2 | fixed | 模型或运行环境不一定具备视觉理解能力，截图/图片/画布不可读时缺少独立降级策略。已新增 Visual Understanding Fallback，并同步 SKILL、输入处理、UI设计师、视觉审查师、视觉门禁和 load map |
+
 ## Backlog
 
-- APM-LOGIC-004: 迭代模式视觉审查缺操作定义
-- APM-LOGIC-005: 设计系统锁定时机不一致
-- APM-DESIGN-006: 角色输出规则重复定义
-- APM-DESIGN-007: SKILL.md 行数监控
+暂无。

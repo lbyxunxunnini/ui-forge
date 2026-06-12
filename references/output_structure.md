@@ -307,10 +307,14 @@ App/iOS 输出默认锁定 iPhone 15：
 设计文件
 - design-output/index.html — 主页面
 - design-output/style.css — 样式文件
+- design-output/tokens.json — 设计 token
 - design-output/icons/ — SVG图标（所有图标）
 - design-output/visuals/ — SVG视觉资产（如启用SVG降级或使用插画/背景）
 - design-output/screenshots/ — 效果图
 - design-output/DESIGN-GUIDE.md — 设计规范
+- design-output/REQUIREMENTS.md — 交互需求
+- design-output/routing.json — 页面路由（3+ 页面或存在跳转关系时）
+- design-output/consistency-report.md — 一致性报告（3+ 页面时）
 
 如需调整任何细节，直接告诉我即可。
 ---
