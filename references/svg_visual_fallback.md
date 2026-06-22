@@ -47,16 +47,20 @@ SVG fallback 至少使用以下能力中的 3 类，避免退化为普通几何�
 - 复用：`defs`、`symbol`、`use`、可命名图层
 - 质感：内阴影、高光描边、噪点肌理、局部辉光
 
+详细构成技巧和质量标准见 [svg_generation_prompts.md](svg_generation_prompts.md)。
+
 ## 风格映射
 
-| 风格 | SVG 方案 |
-|------|----------|
-| glass | 半透明 surface、模糊背板、高光描边、柔和阴影 |
-| editorial | 大字号排版块、非对称路径、图形裁切、低饱和强调色 |
-| data | 环形进度、网格、曲线、柱状、状态点、微光轨迹 |
-| geometric | 大形状组合、硬边遮罩、强对比色块、结构化留白 |
-| neumorphic | 内阴影、柔和凸起、浅底低对比、细高光 |
-| neon | 深底、发光描边、多层透明线、局部高饱和强调 |
+| 风格 | SVG 方案 | 详细 Prompt |
+|------|----------|-------------|
+| glass | 半透明 surface、模糊背板、高光描边、柔和阴影 | [svg_generation_prompts.md §3.1](svg_generation_prompts.md#31-glass-风格) |
+| editorial | 大字号排版块、非对称路径、图形裁切、低饱和强调色 | [svg_generation_prompts.md §3.2](svg_generation_prompts.md#32-editorial-风格) |
+| data | 环形进度、网格、曲线、柱状、状态点、微光轨迹 | [svg_generation_prompts.md §3.3](svg_generation_prompts.md#33-data-风格) |
+| geometric | 大形状组合、硬边遮罩、强对比色块、结构化留白 | [svg_generation_prompts.md §3.4](svg_generation_prompts.md#34-geometric-风格) |
+| neumorphic | 内阴影、柔和凸起、浅底低对比、细高光 | [svg_generation_prompts.md §3.5](svg_generation_prompts.md#35-neumorphic-风格) |
+| neon | 深底、发光描边、多层透明线、局部高饱和强调 | [svg_generation_prompts.md §3.6](svg_generation_prompts.md#36-neon-风格) |
+
+每种风格的详细矢量技法要求、质量标准和负面约束见 [svg_generation_prompts.md](svg_generation_prompts.md)。
 
 ## 禁止项
 
@@ -77,19 +81,25 @@ SVG fallback 至少使用以下能力中的 3 类，避免退化为普通几何�
 - 颜色必须来自 `tokens.json` 或 `DESIGN-GUIDE.md` 中定义的 palette
 - 动画必须轻量，避免大面积 blur、noise 或 path morph 常驻运行
 
+### 量化质量指标
+
+| 维度 | Icon 最低 | Icon 推荐 | Visual 最低 | Visual 推荐 |
+|------|----------|----------|------------|------------|
+| 矢量元素类型 | ≥2 种 | ≥3 种 | ≥3 种 | ≥5 种 |
+| 色彩层次 | — | — | ≥4 色阶 | ≥6 色阶 |
+| 分层 `<g>` 组 | — | — | ≥3 层 | ≥5 层 |
+| 渐变使用 | 禁止 | 禁止 | ≥1 个 | ≥2 个 |
+| 滤镜使用 | 禁止 | 禁止 | 0-2 个 | 1-3 个 |
+| `<defs>` 复用 | — | — | ≥1 个 | ≥2 个 |
+| 文件大小 | ≤5KB | ≤3KB | ≤50KB | ≤30KB |
+| viewBox | 必须 | 24x24 | 必须 | 匹配设计尺寸 |
+| title 标签 | 必须 | 有描述 | 必须 | title+desc |
+
+详细的自动检查命令见 [svg_generation_prompts.md §4.3](svg_generation_prompts.md#43-质量指标自动检查)。
+
 ## DESIGN-GUIDE 标注
 
-进入 SVG fallback 后，`DESIGN-GUIDE.md` 必须新增一节：
-
-```markdown
-## SVG Visual Fallback
-- 触发原因：
-- 替代策略：
-- 使用资产：
-- 视觉能力：渐变 / 滤镜 / 遮罩 / 路径 / 复用 / 质感
-- 性能控制：
-- 不替代的真实图片范围：
-```
+进入 SVG fallback 后，`DESIGN-GUIDE.md` 必须新增一节。完整模板见 [svg_generation_prompts.md §7](svg_generation_prompts.md#7-design-guide-标注模板)。
 
 ## 视觉审查附加门禁
 
@@ -98,6 +108,8 @@ SVG fallback 至少使用以下能力中的 3 类，避免退化为普通几何�
 - 是否明确说明 fallback 触发原因
 - 是否没有伪造真实图片
 - 是否与当前品牌、tokens、组件系统一致
-- 是否达到高美感构成要求
+- 是否达到高美感构成要求（≥3 类）
 - 是否控制滤镜、动画和路径复杂度
 - 是否正确区分 `icons/` 与 `visuals/`
+- 是否按 [svg_generation_prompts.md](svg_generation_prompts.md) 填入了完整 Prompt 并写入 DESIGN-GUIDE.md
+- 是否通过量化质量指标（文件大小、矢量元素、色彩层次等）

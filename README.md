@@ -1,6 +1,6 @@
 # UI Forge
 
-GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.2.4`
+GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.2.5`
 
 UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路由到诊断、设计、交付模式，管理提问预算，强制输出完整性，产出结构化的 HTML/CSS/SVG 交付物。
 
@@ -124,7 +124,9 @@ git clone https://github.com/lbyxunxunnini/ui-forge ~/.claude/skills/ui-forge
 
 ## 版本
 
-当前版本：`v0.2.4`
+当前版本：`v0.2.5`
+
+`v0.2.5` 新增 SVG 生成 Prompt 模板体系：新增 `svg_generation_prompts.md`，提供 Icon 和 Visual 两类 Prompt 模板、六种风格（glass/editorial/data/geometric/neumorphic/neon）细化要求、量化质量指标（矢量元素、色彩层次、分层结构、文件大小等）和自动检查命令；交付工程师进入 SVG fallback 后必须按模板填入设计设定并写入 DESIGN-GUIDE.md；视觉审查师必须对照量化指标审查；`SKILL.md`、`output_structure.md`、`svg_visual_fallback.md` 同步新增 Prompt 模板引用、填写流程和质量门禁。
 
 `v0.2.4` 新增视觉理解降级策略：当模型或环境无法读取截图、图片或画布时，切换到 Visual Understanding Fallback，禁止假装看过视觉细节；同步收窄视觉门禁与角色边界，确保可用文字、DOM/CSS 或 design card 证据时仍能继续，缺少替代证据时明确阻塞。
 

@@ -108,6 +108,7 @@ UI 设计 controller。和 `polanyi-design` 分层：`polanyi-design` 负责高�
 - 真实人物、真实地点、真实商品图不可用时，禁止用 SVG 伪造真实图片，只能改为抽象视觉、信息卡、数据图形或品牌化装饰层
 - 装饰插画、背景、空状态、hero 视觉放入 `design-output/visuals/`；功能图标仍放入 `design-output/icons/`
 - 进入 SVG fallback 后，`DESIGN-GUIDE.md` 必须说明触发原因、替代策略、使用资产、性能控制和不替代的真实图片范围
+- **SVG 生成必须按 [svg_generation_prompts.md](references/svg_generation_prompts.md) 填入 Prompt 模板**：交付工程师判断资产类型（icon/visual）和风格后，填入对应模板，将完整 Prompt 写入 `DESIGN-GUIDE.md`，并对照量化指标自检
 
 ### 视觉理解降级路由
 
@@ -445,6 +446,7 @@ App/iOS 输出默认使用 iPhone 15 画布：页面容器 393×852，`overflow-
 - 角色放行矩阵：[role_gate_matrix.md](references/shared_workflow_gates/role_gate_matrix.md)
 - 视觉质量门禁：[visual_quality_gate.md](references/shared_workflow_gates/visual_quality_gate.md)
 - SVG 视觉降级：[svg_visual_fallback.md](references/svg_visual_fallback.md)
+- SVG 生成 Prompt 模板：[svg_generation_prompts.md](references/svg_generation_prompts.md)
 
 ## 设计规范
 

@@ -277,6 +277,22 @@ App/iOS 输出默认锁定 iPhone 15：
 
 当图片生成失败、外部图片不可用、交付环境只允许 SVG，或用户明确要求纯 SVG 时，启动 [SVG Visual Fallback](svg_visual_fallback.md)。
 
+### SVG 生成 Prompt 要求
+
+进入 SVG fallback 后，交付工程师必须：
+
+1. 判断资产类型：`icons/`（功能图标）或 `visuals/`（插画/背景/空状态）
+2. 选择目标风格：glass / editorial / data / geometric / neumorphic / neon
+3. 按 [svg_generation_prompts.md](svg_generation_prompts.md) 中的对应模板填入设计设定
+4. 将完整 Prompt 写入 `DESIGN-GUIDE.md` 的 SVG Visual Fallback 章节
+5. 生成 SVG 后对照量化指标自检
+
+**Prompt 模板速查：**
+- Icon 模板：[svg_generation_prompts.md §一](svg_generation_prompts.md#一svg-icon-生成-prompt-模板)
+- Visual 模板：[svg_generation_prompts.md §二](svg_generation_prompts.md#二svg-visual-asset-生成-prompt-模板)
+- 风格细化：[svg_generation_prompts.md §三](svg_generation_prompts.md#三六种风格-svg-prompt-细化)
+- 质量指标：[svg_generation_prompts.md §四](svg_generation_prompts.md#四量化质量指标)
+
 ### 目录分工
 
 | 目录 | 内容 | 要求 |

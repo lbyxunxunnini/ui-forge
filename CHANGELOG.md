@@ -1,5 +1,21 @@
 # Changelog
 
+## [v0.2.5] - 2026-06-22
+
+SVG 生成 Prompt 模板体系。
+
+### Added
+
+- `references/svg_generation_prompts.md` — 新增 SVG 生成 Prompt 模板：Icon/Visual 两类模板、六种风格（glass/editorial/data/geometric/neumorphic/neon）细化要求、量化质量指标（矢量元素类型、色彩层次、分层结构、渐变/滤镜/defs 复用、文件大小）和自动检查命令
+- `references/output_structure.md` — 新增 SVG 生成 Prompt 要求章节：交付工程师进入 SVG fallback 后必须判断资产类型、选择风格、按模板填入设计设定、写入 DESIGN-GUIDE.md 并自检
+
+### Changed
+
+- `SKILL.md` — SVG 视觉降级路由新增 Prompt 模板引用，引用列表新增 svg_generation_prompts.md
+- `references/svg_visual_fallback.md` — 风格映射表新增详细 Prompt 链接，新增量化质量指标表（Icon/Visual 最低与推荐值），DESIGN-GUIDE 标注改为引用模板，视觉审查附加门禁新增 Prompt 填写和量化指标检查
+- `README.md` — 同步版本到 `v0.2.5`，并补充本次版本说明
+- `references/core_contracts.yaml` / `.skillhub.json` / `VERSION` — 同步版本到 `v0.2.5`
+
 ## [v0.2.4] - 2026-06-12
 
 新增视觉理解降级策略。
