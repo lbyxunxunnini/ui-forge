@@ -1,6 +1,6 @@
 # UI Forge
 
-GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.2.5`
+GitHub: [lbyxunxunnini/ui-forge](https://github.com/lbyxunxunnini/ui-forge) · License: [MIT](LICENSE) · Version: `v0.2.6`
 
 UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路由到诊断、设计、交付模式，管理提问预算，强制输出完整性，产出结构化的 HTML/CSS/SVG 交付物。
 
@@ -18,6 +18,8 @@ UI Forge 是面向 App 和 Web 的 UI 设计 **controller**。自动将任务路
 其他触发：`/ui-forge`、`使用 ui-forge`、`调用 ui-forge`、`按 ui-forge 工作模式处理`。
 
 ## 功能
+
+`v0.2.6` 优化视觉审查与 SVG 降级：按设计目标选择视觉表现，强化现有产品一致性、语义 Token、无障碍和图标规范。
 
 - 将任务自动路由到诊断、设计、交付、快速、全自动或迭代模式
 - 用提问预算（L1-L4）替代默认的长流程需求访谈

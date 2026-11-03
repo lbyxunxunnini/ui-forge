@@ -282,10 +282,10 @@ App/iOS 输出默认锁定 iPhone 15：
 进入 SVG fallback 后，交付工程师必须：
 
 1. 判断资产类型：`icons/`（功能图标）或 `visuals/`（插画/背景/空状态）
-2. 选择目标风格：glass / editorial / data / geometric / neumorphic / neon
+2. 选择适合目标的既有或自定义风格；glass / editorial / data / geometric / neumorphic / neon 可作参考
 3. 按 [svg_generation_prompts.md](svg_generation_prompts.md) 中的对应模板填入设计设定
 4. 将完整 Prompt 写入 `DESIGN-GUIDE.md` 的 SVG Visual Fallback 章节
-5. 生成 SVG 后对照量化指标自检
+5. 生成 SVG 后按用途、风格和交付约束自检
 
 **Prompt 模板速查：**
 - Icon 模板：[svg_generation_prompts.md §一](svg_generation_prompts.md#一svg-icon-生成-prompt-模板)
@@ -304,7 +304,7 @@ App/iOS 输出默认锁定 iPhone 15：
 
 1. **不能混用目录** - 装饰插画不能放进 `icons/`，功能图标不能混入 `visuals/`
 2. **必须有 viewBox** - 所有独立 SVG 资产必须包含 `viewBox`
-3. **必须可访问** - 用户可见的 SVG 资产建议包含 `<title>` 或 `<desc>`
+3. **必须可访问** - 有语义的 SVG 按使用上下文提供可访问名称；纯装饰 SVG 从无障碍树隐藏，避免重复朗读
 4. **必须可维护** - 复杂 SVG 使用 `<defs>`、分层命名和复用结构
 5. **必须说明降级原因** - 进入 SVG fallback 后，`DESIGN-GUIDE.md` 必须包含 SVG Visual Fallback 说明
 6. **禁止伪造真实图片** - 真实人物、地点、商品图不可用时，只能改为抽象视觉或信息化表达

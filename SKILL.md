@@ -1,5 +1,8 @@
 ---
 name: ui-forge
+metadata:
+  version: "0.2.6"
+  summary: 帮你从需求梳理到页面设计与交付，兼顾现有产品风格、交互细节和视觉质量。
 description: >-
   面向 App 和 Web UI 的设计工作流 controller。
   触发关键词："uif-"、"uif-fast"、"uif-a"、"uif-iter"、"/ui-forge"、"使用 ui-forge"、"调用 ui-forge"、"按 ui-forge 工作模式处理"。
@@ -104,11 +107,11 @@ UI 设计 controller。和 `polanyi-design` 分层：`polanyi-design` 负责高�
 当模型不能生成图、图片工具不可用、外部图片不可用、图片生成被拒绝，或用户明确要求纯 SVG 时，启动 [SVG Visual Fallback](references/svg_visual_fallback.md)。
 
 - 这是媒体资产降级，不是视觉质量评分降级；两者必须分开记录
-- 降级后不能输出普通灰色占位图，必须使用 SVG 原生渐变、滤镜、遮罩、路径与复用能力形成高质感视觉资产
+- 降级后不能输出普通灰色占位图，根据品牌、内容和设计意图选择适合的 SVG 表现方式；纯色和平面构成同样可以达到质量要求
 - 真实人物、真实地点、真实商品图不可用时，禁止用 SVG 伪造真实图片，只能改为抽象视觉、信息卡、数据图形或品牌化装饰层
 - 装饰插画、背景、空状态、hero 视觉放入 `design-output/visuals/`；功能图标仍放入 `design-output/icons/`
 - 进入 SVG fallback 后，`DESIGN-GUIDE.md` 必须说明触发原因、替代策略、使用资产、性能控制和不替代的真实图片范围
-- **SVG 生成必须按 [svg_generation_prompts.md](references/svg_generation_prompts.md) 填入 Prompt 模板**：交付工程师判断资产类型（icon/visual）和风格后，填入对应模板，将完整 Prompt 写入 `DESIGN-GUIDE.md`，并对照量化指标自检
+- **SVG 生成必须按 [svg_generation_prompts.md](references/svg_generation_prompts.md) 填入 Prompt 模板**：交付工程师判断资产类型（icon/visual）和风格后，填入对应模板，将完整 Prompt 写入 `DESIGN-GUIDE.md`，并按用途、风格和交付约束自检
 
 ### 视觉理解降级路由
 

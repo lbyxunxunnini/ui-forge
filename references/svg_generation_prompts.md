@@ -10,42 +10,29 @@
 
 ## 一、SVG Icon 生成 Prompt 模板
 
-用于 `design-output/icons/` 目录的功能图标。目标：轻量、可复用、可适配颜色。
+用于 `design-output/icons/` 目录的功能图标。优先复用已有图标体系，以下为新建图标的可调整示例；资产表达和无障碍处理应符合实际用途及项目约定。
 
 ```text
 Generate a clean SVG icon named {icon_name}.svg.
-Canvas: viewBox="0 0 {24|48|64}". Output exactly one SVG file.
+Canvas: viewBox="{适合项目图标体系的画布}". Output exactly one SVG file.
 
 Subject:
 - Icon purpose: {功能描述，如"手机号输入框前缀图标"}
 - Semantic meaning: {语义，如"phone / mobile / lock"}
-- Style: {line|filled|duotone}
-- Stroke width: {1.5px|2px}
-- Color: currentColor（默认）或 {指定色值，如品牌主色 #667eea}
+- Style: {遵循已有图标体系，或选择适合用途的风格}
+- Stroke width: {按图标体系选择，若适用}
+- Color: {按图标体系选择；可适配的单色图标优先 currentColor}
 
 SVG implementation requirements:
-- Use <path> as primary shape, supplement with <circle>, <rect>, <line>, <polyline>
-- Keep paths clean and minimal (target: under 5 path commands per icon)
-- Use stroke-linecap="round" stroke-linejoin="round" for rounded icons
-- Add <title>{icon description}</title> for accessibility
-- All styling self-contained, no external references, scripts, or fonts
-- Use <defs> for reusable sub-shapes if needed
-- Set fill="none" stroke="currentColor" for line icons; fill="currentColor" for filled icons
+- Match the existing icon set in shape, line weight, sizing and color treatment
+- Use the simplest suitable geometry and rendering techniques for this icon
+- Provide accessible naming or hide decorative icons according to actual use
+- Keep the asset appropriate for the target environment
 
 Quality bar:
-- Pixel-perfect at 24px render size
-- Optical center aligned (not just bounding box center)
-- Consistent visual weight with other icons in the set
-- Recognizable silhouette at 16px
-- Path data optimized (no redundant points)
-
-Negative constraints:
-- No gradients (icons should be single-color or currentColor)
-- No filters, blur, or shadow effects
-- No text or labels inside the icon artwork
-- No clipPath or mask (keep paths clean)
-- No stroke widths below 1px or above 3px
-- No raster images or base64 data
+- Recognizable at its intended rendered size
+- Optically aligned and consistent with the icon set
+- Keep file size and complexity appropriate for the purpose
 ```
 
 ### Icon Prompt 填写示例
@@ -93,31 +80,18 @@ Subject:
 - Scene description: {场景描述，如"空状态：一只猫坐在月亮上，周围有星星"}
 - Mood: {情绪关键词，如"温暖/科技感/轻松/专业"}
 - Color palette: {主色/辅色/点缀色，含 HEX，必须来自 tokens.json}
-- Style: {glass|editorial|data|geometric|neumorphic|neon}
+- Style: {目标项目的已有或自定义风格；可参考 glass/editorial/data/geometric/neumorphic/neon}
 
 SVG implementation requirements:
-- Use layered <g> groups with clear ids: background, midground, foreground, accents, highlights
-- Use <path>, <circle>, <ellipse>, <polygon> for shapes
-- Use <linearGradient>, <radialGradient> for color transitions
-- Use <clipPath>, <mask> for composition and reveal effects
-- Use <filter> sparingly: feDropShadow, feGaussianBlur (max 2-3 filter nodes per asset)
-- Reuse shapes via <defs> + <use>
-- Add <title> and <desc> describing the asset purpose and content
-
-High-aesthetics requirements (use at least 3 of 6):
-- Gradients: linearGradient, radialGradient, opacity highlights, gradient strokes
-- Filters: feDropShadow, feGaussianBlur, feTurbulence, feColorMatrix
-- Masks: clipPath, mask, gradient transparency layers
-- Paths: bezier curves, waveforms, data lines, segmented rings, irregular containers
-- Reuse: defs, symbol, use, named layers
-- Texture: inner shadows, highlight strokes, noise texture, local glow
+- Choose shapes, grouping, gradients, masks, filters and reuse only as appropriate to the design intent
+- Keep filters and animation proportionate to performance needs
+- Provide an accessible name for meaningful assets or hide decorative assets from assistive technology, according to context
 
 Quality bar:
-- At least 6 meaningful color levels
-- Visible depth through layering (not flat)
-- Balanced composition with clear focal point
+- Composition and visual detail fit the purpose, content and chosen style; flat and minimal assets are valid
+- Clear focal point when the asset needs one
 - Consistent with page tokens and brand palette
-- File size under 50KB
+- Appropriate file size and rendering performance for the delivery environment
 
 Negative constraints:
 - No dense repeated <rect> grid
@@ -149,14 +123,13 @@ SVG implementation requirements:
 - Use <clipPath> for envelope flap reveal
 - Add <title>Empty inbox</title> and <desc>No messages yet - friendly empty state illustration</desc>
 
-High-aesthetics requirements (use at least 3 of 6):
+Selected techniques for this example:
 - Gradients: linearGradient on envelope body
 - Paths: bezier curves for envelope shape, star paths
 - Reuse: defs + use for repeated star shapes
 - Texture: subtle inner shadow on envelope
 
 Quality bar:
-- At least 6 color levels
 - Clear focal point (envelope)
 - Consistent with tokens: primary #667eea, secondary #764ba2
 
@@ -170,7 +143,7 @@ Negative constraints:
 
 ## 三、六种风格 SVG Prompt 细化
 
-以下为每种风格的 SVG 实现要求，填入对应模板的 `Style` 字段后附加。
+以下六种风格仅为可调整的示例，并非完整列表或强制规则。按已有设计系统、用户要求和实际用途选择或改写；可使用其他风格。
 
 ### 3.1 glass 风格
 
@@ -263,65 +236,21 @@ Style-specific requirements for neon:
 
 ## 四、量化质量指标
 
-### 4.1 SVG Icon 质量指标
+### 4.1 SVG Icon 质量检查
 
-| 维度 | 最低要求 | 推荐值 | 检查方法 |
-|------|---------|--------|----------|
-| 矢量元素类型 | ≥2 种（path + 1 other） | ≥3 种 | 统计 SVG 元素类型 |
-| path 命令数 | ≤10 个 | ≤6 个 | 统计 d 属性中的命令数 |
-| 文件大小 | ≤5KB | ≤3KB | 文件字节数 |
-| viewBox | 必须有 | 0 0 24 24 | 检查 viewBox 属性 |
-| title 标签 | 必须有 | 有描述性文本 | 检查 `<title>` |
-| 颜色使用 | currentColor 或 1 色 | currentColor | 检查 fill/stroke 值 |
-| 可识别性 | 16px 可识别 | 12px 可识别 | 缩小渲染测试 |
+- 检查图标在实际尺寸下的识别性、视觉对齐、语义和与既有图标体系的一致性。
+- `viewBox`、颜色适配、文件大小和几何复杂度应满足交付环境；不以 path 数量、元素种类、单色或固定尺寸作为通用门槛。
+- 根据实际用途提供可访问名称或隐藏装饰图标，避免重复朗读。
 
-### 4.2 SVG Visual 质量指标
+### 4.2 SVG Visual 质量检查
 
-| 维度 | 最低要求 | 推荐值 | 检查方法 |
-|------|---------|--------|----------|
-| 矢量元素多样性 | ≥3 种类型 | ≥5 种 | 统计 path/circle/rect/polygon/ellipse |
-| 色彩层次 | ≥4 色阶 | ≥6 色阶 | 统计唯一 fill/stroke 颜色数 |
-| 分层 `<g>` 组 | ≥3 层 | ≥5 层 | 统计 `<g>` 标签数 |
-| 渐变使用 | ≥1 个 | ≥2 个（linear+radial） | 统计 gradient 定义数 |
-| 滤镜使用 | 0-2 个 | 1-3 个 | 统计 `<filter>` 数量 |
-| `<defs>` 复用 | ≥1 个 | ≥2 个 | 统计 `<defs>` 中的元素 |
-| 文件大小 | ≤50KB | ≤30KB | 文件字节数 |
-| viewBox | 必须有 | 匹配设计尺寸 | 检查 viewBox 属性 |
-| title + desc | 必须有 | 描述性文本 | 检查标签存在 |
-| 高美感构成 | ≥3 类 | ≥4 类 | 检查渐变/滤镜/遮罩/路径/复用/质感 |
+- 根据资产用途、品牌和风格检查构图、可识别性、可读性与完成度；纯色、少色、平面和简洁构图均可通过。
+- 检查 `viewBox`、适合用途的无障碍信息、交付环境下的文件大小和渲染性能。
+- 渐变、滤镜、色阶、元素类型、分组和复用均按需选择，不以数量或是否使用作为美感及放行指标。
 
-### 4.3 质量指标自动检查
+### 4.3 质量检查方法
 
-交付工程师输出 SVG 后，视觉审查师必须执行以下检查：
-
-```bash
-# Icon 检查
-# 1. 文件大小
-ls -la design-output/icons/*.svg | awk '{if($5 > 5120) print $9, "EXCEEDS 5KB"}'
-
-# 2. viewBox 存在
-grep -L 'viewBox' design-output/icons/*.svg
-
-# 3. title 存在
-grep -L '<title>' design-output/icons/*.svg
-
-# 4. 无渐变/滤镜
-grep -l 'Gradient\|<filter' design-output/icons/*.svg  # 应无输出
-
-# Visual 检查
-# 1. 文件大小
-ls -la design-output/visuals/*.svg | awk '{if($5 > 51200) print $9, "EXCEEDS 50KB"}'
-
-# 2. 渐变数量
-grep -c 'Gradient' design-output/visuals/*.svg
-
-# 3. g 层数量
-grep -c '<g' design-output/visuals/*.svg
-
-# 4. rect 网格检测（超过 200 个 rect 且 path 不足 20 → 疑似网格冒充）
-grep -c '<rect' design-output/visuals/*.svg
-grep -c '<path' design-output/visuals/*.svg
-```
+查看 SVG 结构与文件大小，并在可用环境中按实际尺寸渲染检查；对装饰性资产及有语义的资产分别检查其无障碍处理。自动统计只能辅助发现性能或结构问题，不能替代视觉判断，也不能把效果数量当作评分。
 
 ---
 
@@ -331,10 +260,12 @@ grep -c '<path' design-output/visuals/*.svg
 
 | 类型 | 禁止项 |
 |------|--------|
-| `icons/` | 无渐变、无滤镜、无 blur、无文字转曲、无 clipPath、无 stroke<1px、无 raster |
+| `icons/` | 符合既有图标体系和交付环境；避免无用途的复杂效果 |
 | `visuals/` | 无 rect 网格、无灰色占位、无全屏模糊、无伪造真实图片、无 raster |
 
 ### 5.2 按风格
+
+以下为示例风格的倾向，不是通用禁令；按设计意图和项目约定调整。
 
 | 风格 | 禁止项 |
 |------|--------|
@@ -352,13 +283,13 @@ grep -c '<path' design-output/visuals/*.svg
 ```
 SVG Visual Fallback 触发
   → 交付工程师判断资产类型（icon / visual）
-  → 选择风格（glass / editorial / data / geometric / neumorphic / neon）
+  → 选择已有或自定义风格（第三节可选参考）
   → 填入对应 Prompt 模板（本文档第一/二节）
-  → 附加风格细化要求（本文档第三节）
+  → 按需调整并附加风格细化建议（本文档第三节）
   → 生成 SVG 文件
-  → 对照量化指标自检（本文档第四节）
+  → 按用途、风格与交付约束自检（本文档第四节）
   → 写入 DESIGN-GUIDE.md 的 SVG Visual Fallback 章节
-  → 视觉审查师按指标和约束审查
+  → 视觉审查师按用途、风格和约束审查
 ```
 
 ---
@@ -384,7 +315,7 @@ SVG Visual Fallback 触发
 | search.svg | 搜索图标 | line | 24x24 |
 
 #### visuals/
-| 文件名 | 用途 | 风格 | viewBox | 高美感构成 |
+| 文件名 | 用途 | 风格 | viewBox | 采用的表现方式 |
 |--------|------|------|---------|-----------|
 | empty-state.svg | 空状态插画 | geometric | 375x400 | 渐变+路径+复用 |
 
